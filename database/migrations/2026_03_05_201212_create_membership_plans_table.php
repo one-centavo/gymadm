@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('memberships_plans', function (Blueprint $table) {
+        Schema::create('membership_plans', function (Blueprint $table) {
             $table->id();
-            $table->string('name',50)->unique();
-            $table->string('description',255)->nullable();
-            $table->decimal('price',10,2);
+            $table->string('name', 50)->unique();
+            $table->string('description', 255)->nullable();
+            $table->decimal('price', 10, 2);
             $table->integer('duration_value');
-            $table->integer('duration_unit');
-            $table->string('status')->default('active');
+            $table->enum('duration_unit', ['days', 'weeks', 'months']);
+            $table->string('status', 10)->default('active');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('memberships_plans');
+        Schema::dropIfExists('membership_plans');
     }
 };
