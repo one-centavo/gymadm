@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('description',255)->nullable();
             $table->decimal('price',10,2);
             $table->integer('duration_value');
-            $table->integer('duration_unit');
+            $table->enum('duration_unit', ['days', 'weeks', 'months']);
             $table->string('status')->default('active');
             $table->timestamps();
         });
