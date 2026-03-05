@@ -23,7 +23,7 @@ class MembershipFactory extends Factory
             // 2. Buscamos un usuario al azar que sea el "dueño" de esta membresía
             'user_id' => \App\Models\User::inRandomOrder()->first()?->id ?? \App\Models\User::factory(),
 
-            'memberships_plan_id' => $plan->id,
+            'membership_plans_id' => $plan->id,
 
             // 3. Lógica de fechas usando Carbon
             'start_date' => now(),
