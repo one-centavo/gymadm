@@ -24,11 +24,19 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'document_type' => fake()->randomElement(['CC', 'TI', 'CE']), // Tipos comunes en Colombia
+            'document_number' => fake()->unique()->numerify('##########'), // 10 números aleatorios
+            'first_name' => fake()->firstName(),
+            'middle_name' => fake()->optional()->firstName(),
+            'last_name' => fake()->lastName(),
+            'second_lastname' => fake()->optional()->lastName(),
             'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
+            'phone_number' => fake()->unique()->phoneNumber(),
+            'status' => 'active',
+            'role' => 'member',
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'must_change_password' => false,
         ];
     }
 
