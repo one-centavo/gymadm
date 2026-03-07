@@ -13,7 +13,7 @@ class RegisterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,9 +24,9 @@ class RegisterRequest extends FormRequest
     public function rules(): array {
         return [
             'first_name'      => $this->nameRules(),
-            'middle_name'     => $this->optionalNameRules(), // <-- Ahora sí se valida si viene algo
+            'middle_name'     => $this->optionalNameRules(),
             'last_name'       => $this->nameRules(),
-            'second_lastname' => $this->optionalNameRules(), // <-- Validado contra tu migración
+            'second_lastname' => $this->optionalNameRules(),
             'email'           => $this->emailRules(),
             'password'        => $this->passwordRules(true),
             'document_type'   => $this->documentRules()['document_type'],
