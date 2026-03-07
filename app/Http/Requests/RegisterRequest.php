@@ -27,7 +27,6 @@ class RegisterRequest extends FormRequest
             'middle_name'     => $this->optionalNameRules(),
             'last_name'       => $this->nameRules(),
             'second_lastname' => $this->optionalNameRules(),
-            'email'           => $this->emailRules(),
             'password'        => $this->passwordRules(true),
             'document_type'   => $this->documentRules()['document_type'],
             'document_number' => $this->documentRules()['document_number'],
