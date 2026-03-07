@@ -46,7 +46,7 @@ class RegistrationService
         }
     }
 
-    public function registerByUser(array $data): User
+    public function registerByMember(array $data): User
     {
         return $this->userModel->create([
             'first_name'      => $data['first_name'],
