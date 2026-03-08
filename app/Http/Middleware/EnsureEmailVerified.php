@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureEmailIsVerified
+class EnsureEmailVerified
 {
     /**
      * Handle an incoming request.
@@ -15,9 +15,9 @@ class EnsureEmailIsVerified
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!request()->session()->has('email') || !request()->session()->has('verified_otp')){
-            return redirect()->route('register.index')
-                ->with('error', 'Por favor, ingresa tu correo electrónico para comenzar.');
+        if(!$request->session()->has('email') || !$request->session()->has('verified_otp')){
+            return redirect()->route('register.verifyOtp')
+                ->with('error', 'Please verify your email before proceeding.');
         }
         return $next($request);
     }

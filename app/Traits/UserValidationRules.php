@@ -41,4 +41,8 @@ trait UserValidationRules
     protected function phoneRules() : array {
         return ['required', 'string', 'max:50', 'unique:users,phone_number'];
     }
+
+    protected function otpRules(): array{
+        return ['required', 'string', 'size:6', 'numeric'];
+    }
 }
