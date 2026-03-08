@@ -11,7 +11,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'ensure.email.submitted' => \App\Http\Middleware\EnsureEmailSubmitted::class,
+            'ensure.otp.verified' => \App\Http\Middleware\EnsureEmailVerified::class,
+            'ensure.registration.complete' => \App\Http\Middleware\EnsureRegistrationIsReady::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

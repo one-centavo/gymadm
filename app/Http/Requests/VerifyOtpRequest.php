@@ -26,7 +26,7 @@ class VerifyOtpRequest extends FormRequest
     {
         return [
             'email' => $this->emailRules(),
-            'otp' => ['required', 'string', 'size:6', 'numeric']
+            'otp' => $this->otpRules(),
         ];
     }
 }

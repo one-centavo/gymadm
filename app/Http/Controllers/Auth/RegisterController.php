@@ -7,7 +7,7 @@ use App\Http\Requests\SendOtpRequest;
 use App\Http\Requests\VerifyOtpRequest;
 use App\Services\RegistrationService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 
 
@@ -20,14 +20,14 @@ class RegisterController extends Controller
 
     public function index()
     {
-        return view('auth.register');
+        return view('auth.register.get-email');
     }
 
-    public function sendOtp(SendOtpRequest $request): JsonResponse {
+    public function sendOtp(SendOtpRequest $request): JsonResponse|RedirectResponse  {
 
         $email = $request->validated()['email'];
 
-        if($this->registrationService->isEmailAvailable($email)) {
+        if(!$this->registrationService->isEmailAvailable($email)) {
             return response()->json([
                 'message' => 'Verify your email and try again.',
                 'data' => [
@@ -40,14 +40,14 @@ class RegisterController extends Controller
 
         $request->session()->put('email', $email);
 
-        return redirect()->route('register.otp');
+        return redirect()->route('register.verifyOtp');
     }
 
     public function showOtpForm(){
-        return view('register.otp');
+        return view('auth.register.get-otp');
     }
 
-    public function verifyOtp(VerifyOtpRequest $request): JsonResponse {
+    public function verifyOtp(VerifyOtpRequest $request): JsonResponse|RedirectResponse {
         $email = $request->validated()['email'];
         $otp = $request->validated()['otp'];
 
@@ -60,7 +60,7 @@ class RegisterController extends Controller
             ], 422);
         }
 
-        $request->session()->put('email', $email);
+
         $request->session()->put('verified_otp', true);
 
         return redirect()->route('register.form');
@@ -68,7 +68,7 @@ class RegisterController extends Controller
     }
 
     public function showRegistrationForm(){
-        return view('register.form');
+        return view('auth.register.get-data');
     }
 
     public function registerMember(RegisterRequest $request): JsonResponse {
@@ -83,6 +83,19 @@ class RegisterController extends Controller
 
         $data = $request->validated();
 
+        $type = $data['document_type'];
+        $number = $data['document_number'];
+
+        if(!$this->registrationService->checkDocumentUniqueness($type, $number)) {
+            return response()->json([
+                'message' => 'Verify your document information and try again.',
+            ], 422);
+        }
+
+        $data['email'] = $email;
+
+
+
         $this->registrationService->registerByMember($data);
 
 
@@ -92,14 +105,6 @@ class RegisterController extends Controller
             'message' => 'Registration successful. You can now log in.',
         ], 201);
     }
-
-
-
-
-
-
-
-
 
 
 
