@@ -4,6 +4,8 @@ namespace Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Livewire\Livewire;
+use App\Livewire\Auth\RegisterForm;
 
 class RegistrationFlowTest extends TestCase
 {
@@ -11,93 +13,92 @@ class RegistrationFlowTest extends TestCase
 
     public function test_can_access_registration_initial_page(): void
     {
-        $response = $this->get('/register');
-
-        $response->assertStatus(200);
-        $response->assertViewIs('auth.register.get-email');
+        $this->get('/register')
+            ->assertStatus(200)
+            ->assertSeeLivewire(RegisterForm::class);
     }
 
-    public function test_cannot_access_otp_verification_without_email_in_session(): void
+    public function test_email_validation_prevents_advancing_to_otp(): void
     {
-        $response = $this->get('/verify-otp');
-
-        $response->assertRedirect('/register');
+        Livewire::test(RegisterForm::class)
+            ->set('email', 'correo-invalido')
+            ->call('sendOtp')
+            ->assertHasErrors(['email'])
+            ->assertSet('step', 1);
     }
 
-    public function test_cannot_access_registration_form_without_verified_otp(): void
+    public function test_valid_email_advances_to_otp_step(): void
     {
-        $response = $this->get('/register-form');
+        $this->mock(\App\Services\RegistrationService::class, function ($mock) {
+            $mock->shouldReceive('isEmailAvailable')
+                ->with('test@example.com')
+                ->once()
+                ->andReturn(true);
 
-        $response->assertRedirect('/verify-otp');
+            $mock->shouldReceive('requestEmailVerification')
+                ->with('test@example.com')
+                ->once();
+        });
+
+        Livewire::test(RegisterForm::class)
+            ->set('email', 'test@example.com')
+            ->call('sendOtp')
+            ->assertHasNoErrors()
+            ->assertSet('step', 2);
     }
 
-    public function test_email_submission_redirects_to_otp_verification(): void
+    public function test_otp_validation_prevents_advancing_to_data_form(): void
     {
-        $email = 'test@example.com';
-
-        $response = $this->post('/register', [
-            'email' => $email,
-        ]);
-
-        $response->assertRedirect('/verify-otp');
-        $response->assertSessionHas('email', $email);
+        Livewire::test(RegisterForm::class)
+            ->set('step', 2)
+            ->set('email', 'test@example.com')
+            ->set('otp', '')
+            ->call('verifyOtp')
+            ->assertHasErrors(['otp'])
+            ->assertSet('step', 2);
     }
 
-    public function test_can_access_otp_form_after_email_submission(): void
+    public function test_valid_otp_advances_to_final_registration_form(): void
     {
-        $response = $this->withSession(['email' => 'test@example.com'])
-            ->get('/verify-otp');
+        $this->mock(\App\Services\RegistrationService::class, function ($mock) {
+            $mock->shouldReceive('verifyIdentity')
+                ->with('test@example.com', '123456')
+                ->once()
+                ->andReturn(true);
+        });
 
-        $response->assertStatus(200);
-        $response->assertViewIs('auth.register.get-otp');
+        Livewire::test(RegisterForm::class)
+            ->set('step', 2)
+            ->set('email', 'test@example.com')
+            ->set('otp', '123456')
+            ->call('verifyOtp')
+            ->assertHasNoErrors()
+            ->assertSet('step', 3);
     }
 
-    public function test_can_access_registration_form_after_otp_verification(): void
+    public function test_successful_registration_redirects_to_login(): void
     {
-        $response = $this->withSession([
-            'email' => 'test@example.com',
-            'verified_otp' => true
-        ])->get('/register-form');
+        $fakeUser = new \App\Models\User(['id' => 1, 'email' => 'test@example.com']);
 
-        $response->assertStatus(200);
-        $response->assertViewIs('auth.register.get-data');
-    }
+        $this->mock(\App\Services\RegistrationService::class, function ($mock) use ($fakeUser) {
+            $mock->shouldReceive('checkDocumentUniqueness')
+                ->with('CC', '1000222333')
+                ->once()
+                ->andReturn(true);
 
-    public function test_email_is_preserved_in_session_through_otp_flow(): void
-    {
-        $email = 'persistent@example.com';
+            $mock->shouldReceive('registerByMember')
+                ->once()
+                ->andReturn($fakeUser);
+        });
 
-        $response = $this->withSession([
-            'email' => $email,
-            'verified_otp' => true
-        ])->get('/register-form');
-
-        $response->assertSessionHas('email', $email);
-    }
-
-    public function test_email_and_otp_are_cleared_after_successful_registration(): void
-    {
-        $email = 'test@example.com';
-
-        $postResponse = $this->withSession([
-            'email' => $email,
-            'verified_otp' => true
-        ])->postJson('/register-form', [
-            'first_name' => 'Gustavo',
-            'last_name' => 'Doe',
-            'document_type' => 'CC',
-            'document_number' => '12345678',
-            'phone_number' => '3101234567',
-            'password' => 'Password123!',
-            'password_confirmation' => 'Password123!',
-        ]);
-
-        $postResponse->assertStatus(201);
-
-        $response = $this->get('/register-form');
-
-        $response->assertRedirect('/verify-otp');
-        $response->assertSessionMissing('email');
-        $response->assertSessionMissing('verified_otp');
+        Livewire::test(RegisterForm::class)
+            ->set('step', 3)
+            ->set('email', 'test@example.com')
+            ->set('document_type', 'CC')
+            ->set('document_number', '1000222333')
+            ->set('name', 'Gustavo')
+            ->call('registerMember')
+            ->assertHasNoErrors()
+            ->assertRedirect(route('login'));
     }
 }

@@ -1,5 +1,6 @@
 <?php
-use App\Http\Controllers\Auth\RegisterController;
+
+use App\Livewire\Auth\RegisterForm;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -7,20 +8,7 @@ Route::get('/', function () {
 });
 
 
-//****** Registration Routes ******
-
-Route::controller(RegisterController::class)->group(function () {
-    Route::get('/register', 'index')->name('register');
-    Route::post('/register', 'sendOtp')->name('register.sendOtp');
-
-    Route::middleware(['ensure.email.submitted'])->group(function () {
-        Route::get('/verify-otp', 'showOtpForm')->name('register.verifyOtp');
-        Route::post('/verify-otp', 'verifyOtp')->name('register.verifyOtp.post');
-    });
-
-    Route::middleware(['ensure.otp.verified'])->group(function () {
-        Route::get('/register-form', 'showRegistrationForm')->name('register.form');
-    });
-
-    Route::post('/register-form', 'registerMember')->middleware('ensure.registration.complete')->name('register.post');
-});
+Route::get('/register', RegisterForm::class)->name('register');
+Route::get('/login', function () {
+    return 'Página de Login en construcción';
+})->name('login');
