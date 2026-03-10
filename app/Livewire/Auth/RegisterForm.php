@@ -4,6 +4,7 @@
 
 namespace App\Livewire\Auth;
 
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use App\Services\RegistrationService;
 use Illuminate\Support\Facades\Log;
@@ -12,6 +13,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Http\RedirectResponse;
 use Exception;
 
+#[Layout('components.layouts.guest')]
 class RegisterForm extends Component
 {
     public int $step = 1;
