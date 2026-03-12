@@ -1,13 +1,52 @@
 @import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;900&display=swap');
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
+@layer base {
+    html{
+        font-family: 'Roboto', sans-serif;
+    }
+}
+
 @theme {
+    --color-gym-blue: #45B1FF;
     --font-sans: 'Inter', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
     --shadow-brutal: 4px 4px 0px 0px #000;
     --shadow-brutal-sm: 2px 2px 0px 0px #000;
+    --shadow-blue-gym: 5px 5px 0px 0px var(--color-gym-blue);
+
+}
+
+
+.bg-gym-hero {
+    background-image: url('https://images.unsplash.com/photo-1693214674451-2111f7690877?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBneW0lMjB3ZWlnaHQlMjByb29tJTIwZGFya3xlbnwxfHx8fDE3NzMwNzg1NDd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.bg-gym-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: inherit;
+    background-repeat: inherit;
+    background-size: inherit;
+    background-position: inherit;
+    filter: blur(8px);
+    z-index: 1;
+}
+
+.bg-gym-hero > * {
+    position: relative;
+    z-index: 2;
 }
