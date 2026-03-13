@@ -29,4 +29,15 @@ class VerifyOtpRequest extends FormRequest
             'otp' => $this->otpRules(),
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'El correo es necesario para la validación.',
+            'email.email'    => 'El formato del correo no es válido.',
+            'otp.required'   => 'El código OTP es obligatorio.',
+            'otp.numeric'    => 'El código OTP debe ser numérico.',
+            'otp.digits'     => 'El código OTP debe tener exactamente 6 dígitos.',
+        ];
+    }
 }
