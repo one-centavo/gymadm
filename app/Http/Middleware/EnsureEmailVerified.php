@@ -6,25 +6,19 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureRegistrationIsReady{
+class EnsureEmailVerified
+{
     /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->session()->has('email')) {
-            return redirect()->route('register')
-                ->with('error', 'You should start the registration process by submitting your email.');
-        }
-
-        if (!$request->session()->get('verified_otp', false)) {
+        if(!$request->session()->has('email') || !$request->session()->has('verified_otp')){
             return redirect()->route('register.verifyOtp')
-                ->with('error', 'Please verify the OTP sent to your email before proceeding with registration.');
+                ->with('error', 'Please verify your email before proceeding.');
         }
-
         return $next($request);
     }
 }

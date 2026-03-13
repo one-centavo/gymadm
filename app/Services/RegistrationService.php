@@ -58,6 +58,8 @@ class RegistrationService
             'document_type'   => $data['document_type'],
             'document_number' => $data['document_number'],
             'status'          => 'pending',
+            'phone_number' => $data['phone_number'],
+            'role' => 'member',
         ]);
     }
 }
