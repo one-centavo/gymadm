@@ -121,6 +121,7 @@ class RegisterForm extends Component
 
         $this->step = 3;
     }
+
     public function registerMember(): ?RedirectResponse
     {
         $request = new RegisterRequest();

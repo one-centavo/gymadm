@@ -14,10 +14,11 @@
             type="email"
             placeholder="tu@correo.com"
             wire:model="email"
+            wire:key="input-email"
             class="border-2 w-full p-2 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none"
         >
         @error('email')
-        <span class="error">{{ $message }}</span>
+        <span class="text-red-500 text-sm font-bold mt-1">{{ $message }}</span>
         @enderror
     </div>
 
