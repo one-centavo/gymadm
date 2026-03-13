@@ -10,6 +10,7 @@ use App\Http\Requests\VerifyOtpRequest;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use RuntimeException;
 use Exception;
 
@@ -55,6 +56,16 @@ class RegisterForm extends Component
         }
     }
 
+    public function resendOtp(): void
+    {
+        try {
+            $this->registrationService->requestEmailVerification($this->email);
+            session()->flash('message', 'Código reenviado con éxito.');
+        } catch (RuntimeException $e) {
+            $this->addError('otp', $e->getMessage());
+        }
+    }
+
     public function verifyOtp(): void
     {
         $request = new VerifyOtpRequest();
@@ -68,7 +79,7 @@ class RegisterForm extends Component
         $this->step = 3;
     }
 
-    public function registerMember(): mixed
+    public function registerMember(): ?RedirectResponse
     {
         $request = new RegisterRequest();
         $validatedData = $this->validate($request->rules());
@@ -82,11 +93,8 @@ class RegisterForm extends Component
 
         try {
             $this->registrationService->registerByMember($validatedData);
-
             session()->flash('message', '¡Registro exitoso! Ya puedes iniciar sesión en tu gimnasio.');
-
             return redirect()->route('login');
-
         } catch (Exception $e) {
             Log::error('Error en registro de GYMADM: ' . $e->getMessage());
             $this->addError('registration', 'Ocurrió un error inesperado. Por favor, intenta de nuevo.');
@@ -94,7 +102,7 @@ class RegisterForm extends Component
         }
     }
 
-    public function render(): View
+    public function render(): view
     {
         return view('livewire.auth.register-form');
     }

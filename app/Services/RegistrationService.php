@@ -6,6 +6,7 @@ use App\Models\User;
 use RuntimeException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
+use Exception;
 
 class RegistrationService
 {
@@ -40,7 +41,9 @@ class RegistrationService
         try {
             $code = $this->otpService->generate($email);
             $this->otpService->send($email, $code);
-        } catch (\Exception $e) {
+        } catch (RuntimeException $e) {
+            throw $e;
+        } catch (Exception $e) {
             Log::error("Failed to send registration OTP to {$email}: " . $e->getMessage());
             throw new RuntimeException("We couldn't send the verification code. Please try again later.");
         }
@@ -58,8 +61,8 @@ class RegistrationService
             'document_type'   => $data['document_type'],
             'document_number' => $data['document_number'],
             'status'          => 'pending',
-            'phone_number' => $data['phone_number'],
-            'role' => 'member',
+            'phone_number'    => $data['phone_number'],
+            'role'            => 'member',
         ]);
     }
 }
