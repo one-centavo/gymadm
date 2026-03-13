@@ -43,6 +43,6 @@ trait UserValidationRules
     }
 
     protected function otpRules(): array{
-        return ['required', 'string', 'size:6', 'numeric'];
+        return ['required','numeric','digits:6'];
     }
 }
