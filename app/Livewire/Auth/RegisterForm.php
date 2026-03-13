@@ -1,27 +1,34 @@
 <?php
 
-
-
 namespace App\Livewire\Auth;
 
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use App\Services\RegistrationService;
+use App\Http\Requests\SendOtpRequest;
+use App\Http\Requests\VerifyOtpRequest;
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\View\View;
-use Illuminate\Routing\Redirector;
-use Illuminate\Http\RedirectResponse;
+use RuntimeException;
 use Exception;
 
 #[Layout('components.layouts.guest')]
 class RegisterForm extends Component
 {
     public int $step = 1;
+
     public string $email = '';
     public string $otp = '';
+    public string $first_name = '';
+    public string $middle_name = '';
+    public string $last_name = '';
+    public string $second_last_name = '';
     public string $document_type = '';
     public string $document_number = '';
-    public string $name = '';
+    public string $phone_number = '';
+    public string $password = '';
+    public string $password_confirmation = '';
 
     protected RegistrationService $registrationService;
 
@@ -32,54 +39,57 @@ class RegisterForm extends Component
 
     public function sendOtp(): void
     {
-        $this->validate(['email' => 'required|email']);
+        $request = new SendOtpRequest();
+        $this->validate($request->rules(), $request->messages());
 
         if (!$this->registrationService->isEmailAvailable($this->email)) {
-            $this->addError('email', 'Verify your email and try again.');
+            $this->addError('email', 'Este correo ya está registrado.');
             return;
         }
 
-        $this->registrationService->requestEmailVerification($this->email);
-
-        $this->step = 2;
+        try {
+            $this->registrationService->requestEmailVerification($this->email);
+            $this->step = 2;
+        } catch (RuntimeException $e) {
+            $this->addError('email', $e->getMessage());
+        }
     }
 
     public function verifyOtp(): void
     {
-        $this->validate(['otp' => 'required|numeric']);
+        $request = new VerifyOtpRequest();
+        $this->validate($request->rules(), $request->messages());
 
         if (!$this->registrationService->verifyIdentity($this->email, $this->otp)) {
-            $this->addError('otp', 'Invalid OTP code. Please try again.');
+            $this->addError('otp', 'Código OTP inválido o expirado. Intenta nuevamente.');
             return;
         }
 
         $this->step = 3;
     }
 
-    public function registerMember(): Redirector|RedirectResponse|null
+    public function registerMember(): mixed
     {
-        $data = $this->validate([
-            'document_type' => 'required',
-            'document_number' => 'required',
-            'name' => 'required|string|max:255',
-        ]);
+        $request = new RegisterRequest();
+        $validatedData = $this->validate($request->rules());
 
         if (!$this->registrationService->checkDocumentUniqueness($this->document_type, $this->document_number)) {
-            $this->addError('document_number', 'Verify your document information and try again.');
+            $this->addError('document_number', 'Este documento ya se encuentra registrado en el sistema.');
             return null;
         }
 
-        $data['email'] = $this->email;
+        $validatedData['email'] = $this->email;
 
         try {
-            $this->registrationService->registerByMember($data);
+            $this->registrationService->registerByMember($validatedData);
 
-            session()->flash('message', 'Registration successful. You can now log in.');
+            session()->flash('message', '¡Registro exitoso! Ya puedes iniciar sesión en tu gimnasio.');
+
             return redirect()->route('login');
 
         } catch (Exception $e) {
-            Log::error($e->getMessage());
-            $this->addError('registration', 'Something went wrong. Please try again.');
+            Log::error('Error en registro de GYMADM: ' . $e->getMessage());
+            $this->addError('registration', 'Ocurrió un error inesperado. Por favor, intenta de nuevo.');
             return null;
         }
     }
