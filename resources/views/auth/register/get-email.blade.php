@@ -8,7 +8,7 @@
 <p class="text-sm text-gray-500">Ingresa tu correo electrónico para comenzar con el registro.</p>
 
 <div class="space-y-8">
-    <div>
+    <div class="space-y-2">
         <label class="text-sm font-black">CORREO ELECTRÓNICO</label>
         <input
             type="email"

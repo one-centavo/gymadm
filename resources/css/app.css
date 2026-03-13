@@ -1,6 +1,5 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;900&display=swap');
-
+@import "tailwindcss";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -29,9 +28,12 @@
         font-family: 'Roboto', sans-serif;
         @apply antialiased;
     }
+
+
+    [x-cloak] {
+        display: none !important;
+    }
 }
-
-
 
 
 .bg-gym-hero {
