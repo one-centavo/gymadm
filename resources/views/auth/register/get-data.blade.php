@@ -1,35 +1,139 @@
-<div class="flex items-center gap-3 mb-4">
-    <div class="bg-blue-500 p-2 border-2 border-black">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+<div class="w-full flex gap-2 items-center p-3">
+    <div class="bg-gym-blue border-2 p-1">
+        <x-heroicon-o-user class="h-5 w-5 font-extrabold" />
     </div>
-    <h3 class="font-black text-xl uppercase">Correo Electrónico</h3>
+    <h3 class="text-black text-xl uppercase tracking-wider font-black">INFORMACIÓN PERSONAL</h3>
 </div>
 
-<p class="text-gray-600 mb-6 font-medium">Ingresa tu correo electrónico para comenzar el registro.</p>
+<p class="text-sm text-gray-500 p-3 flex flex-start w-full">Completa tus datos para finalizar el registro.
+</p>
 
-<div class="mb-6">
-    <label class="block font-bold mb-2 uppercase text-sm">Correo Electrónico</label>
-    <input
-        type="email"
-        wire:model="email"
-        placeholder="tu@correo.com"
-        class="w-full border-4 border-black p-3 focus:outline-none focus:bg-gray-50"
-    >
-    @error('email')
-    <span class="text-red-600 font-bold text-sm mt-1 block">{{ $message }}</span>
-    @enderror
+<div class="space-y-8 w-full p-3">
+
+    <div class="flex flex-col md:grid md:grid-cols-2 gap-4 overflow-y-scroll max-h-64">
+        <label class="text-sm font-black">
+            PRIMER NOMBRE
+            <input
+                type="text"
+                placeholder="Juan"
+                maxlength="50"
+                wire:model="first_name"
+                wire:key="input-first-name"
+                class="border-2 w-full p-3 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none"
+            >
+
+        </label>
+        <label class="text-sm font-black">
+            SEGUNDO NOMBRE
+            <input
+                type="text"
+                placeholder="Luis"
+                maxlength="50"
+                wire:model="middle_name"
+                wire:key="input-second-name"
+                class="border-2 w-full p-3 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none"
+            >
+
+        </label>
+        <label class="text-sm font-black">
+            PRIMER APELLIDO
+            <input
+                type="text"
+                placeholder="Pérez"
+                maxlength="50"
+                wire:model="last_name"
+                wire:key="input-first-last-name"
+                class="border-2 w-full p-3 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none"
+            >
+
+        </label>
+        <label class="text-sm font-black">
+            SEGUNDO APELLIDO
+            <input
+                type="text"
+                placeholder="Gómez"
+                maxlength="50"
+                wire:model="second_last_name"
+                wire:key="input-second-last-name"
+                class="border-2 w-full p-3 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none"
+            >
+
+        </label>
+        <label class="text-sm font-black">
+            TIPO DE DOCUMENTO
+            <select wire:model="document_type" class="border-2 w-full p-3 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none">
+                <option disabled selected>Seleccionar</option>
+            </select>
+        </label>
+
+        <label class="text-sm font-black">
+            NUMERO DE DOCUMENTO
+            <input
+                type="text"
+                placeholder="1234567890"
+                maxlength="50"
+                wire:model="document_number"
+                wire:key="input-document-number"
+                class="border-2 w-full p-3 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none"
+            >
+
+        </label>
+        <label class="text-sm font-black col-span-2">
+            NUMERO DE CELULAR
+            <input
+                type="text"
+                placeholder="1234567890"
+                maxlength="50"
+                wire:model="phone_number"
+                wire:key="input-document-number-2"
+                class="border-2 w-full p-3 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none"
+            >
+
+        </label>
+        <label class="text-sm font-black">
+            CONTRASEÑA
+            <input
+                type="text"
+                placeholder="********"
+                maxlength="50"
+                wire:model="password"
+                wire:key="input-password"
+                class="border-2 w-full p-3 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none"
+            >
+
+        </label>
+        <label class="text-sm font-black">
+            CONFIRMACIÓN
+            <input
+                type="text"
+                placeholder="********"
+                maxlength="50"
+                wire:model="password_confirmation"
+                wire:key="input-password-confirmation"
+                class="border-2 w-full p-3 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none"
+            >
+
+        </label>
+        @error('otp')
+        <span class="text-red-500 text-sm font-bold">{{ $message }}</span>
+        @enderror
+    </div>
+
+    <div class="flex gap-2 items-center flex-1">
+        <button
+            type="button"
+            wire:click="$set('step', 2)"
+            wire:key="btn-back-step-2"
+            :disabled="$wire.step === 1"
+            class="text-base bg-white p-2 w-full flex items-center justify-center gap-2 border-2 shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none cursor-pointer transition-all duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none">
+            <x-heroicon-o-arrow-left class="text-black font-bold w-4 h-4"></x-heroicon-o-arrow-left> ATRÁS
+        </button>
+        <button
+            type="submit"
+            class="text-black font-base bg-gym-blue p-2 w-full flex items-center justify-center gap-2 border-2 shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none cursor-pointer transition-all duration-300 ease-in-out"
+        >
+            <span wire:loading.remove>REGISTRARSE</span>
+            <span wire:loading>Cargando...</span>
+        </button>
+    </div>
 </div>
-
-<button
-    type="submit"
-    class="w-full bg-blue-500 border-4 border-black p-4 font-black uppercase text-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all flex justify-center items-center gap-2"
->
-    <span wire:loading.remove>Continuar →</span>
-    <span wire:loading>Cargando...</span>
-</button>
-
-<div class="mt-6 text-center text-sm font-bold">
-    <span class="text-gray-600">¿Ya tienes una cuenta?</span>
-    <a href="#" class="underline decoration-2 underline-offset-4 hover:text-blue-600">Inicia sesión</a>
-</div>
-

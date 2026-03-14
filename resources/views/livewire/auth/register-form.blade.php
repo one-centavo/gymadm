@@ -18,7 +18,7 @@
         <div class="h-1 w-8 bg-gray-500"></div>
         <div class="{{ $step === 3 ? 'bg-gym-blue' : 'bg-white' }} px-4 py-1 border-2 border-black font-bold">3</div>
     </div>
-    <section class="w-11/12 max-w-md bg-white">
+    <section class="w-11/12 {{ $step === 3? 'max-w-2xl' : 'max-w-md'}} bg-white">
         <form wire:submit="{{ $step === 1 ? 'sendOtp' : ($step === 2 ? 'verifyOtp' : 'registerMember') }}" class="flex flex-col border-2 p-6 gap-4 shadow-brutal items-center">
             @if($step === 1)
                 @include('auth.register.get-email')
