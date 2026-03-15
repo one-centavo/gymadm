@@ -78,7 +78,7 @@ class RegistrationFlowTest extends TestCase
             ->assertSet('step', 3);
     }
 
-    public function test_successful_registration_redirects_to_login(): void
+    public function test_successful_registration_shows_success_modal(): void
     {
         $fakeUser = new User(['id' => 1, 'email' => 'test@example.com']);
 
@@ -105,6 +105,14 @@ class RegistrationFlowTest extends TestCase
             ->set('password_confirmation', 'GymAdm2026!')
             ->call('registerMember')
             ->assertHasNoErrors()
+            ->assertSet('showSuccessModal', true);
+    }
+
+    public function test_go_to_login_redirects_after_success_modal(): void
+    {
+        Livewire::test(RegisterForm::class)
+            ->set('showSuccessModal', true)
+            ->call('goToLogin')
             ->assertRedirect(route('login'));
     }
 }

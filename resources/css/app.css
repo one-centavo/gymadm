@@ -108,3 +108,27 @@
     position: relative;
     z-index: 2;
 }
+
+
+@keyframes step-slide-left {
+    from {
+        opacity: 0;
+        transform: translateX(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.step-slide-left {
+    animation: step-slide-left 500ms ease-in-out;
+    will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .step-slide-left {
+        animation: none;
+    }
+}
+

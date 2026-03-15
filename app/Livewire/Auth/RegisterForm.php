@@ -33,6 +33,7 @@ class RegisterForm extends Component
     public string $phone_number = '';
     public string $password = '';
     public string $password_confirmation = '';
+    public bool $showSuccessModal = false;
 
     public int $resendCountdown = 0;
 
@@ -125,7 +126,11 @@ class RegisterForm extends Component
     public function registerMember(): ?RedirectResponse
     {
         $request = new RegisterRequest();
-        $validatedData = $this->validate($request->rules());
+        $validatedData = $this->validate(
+            $request->rules(),
+            $request->messages(),
+            $request->attributes()
+        );
 
         if (!$this->registrationService->checkDocumentUniqueness($this->document_type, $this->document_number)) {
             $this->addError('document_number', 'Este documento ya se encuentra registrado en el sistema.');
@@ -136,13 +141,18 @@ class RegisterForm extends Component
 
         try {
             $this->registrationService->registerByMember($validatedData);
-            session()->flash('message', '¡Registro exitoso! Ya puedes iniciar sesión en tu gimnasio.');
-            return redirect()->route('login');
+            $this->showSuccessModal = true;
+            return null;
         } catch (Exception $e) {
             Log::error('Error en registro de GYMADM: ' . $e->getMessage());
             $this->addError('registration', 'Ocurrió un error inesperado. Por favor, intenta de nuevo.');
             return null;
         }
+    }
+
+    public function goToLogin(): RedirectResponse
+    {
+        return redirect()->route('login');
     }
 
     public function render(): view
