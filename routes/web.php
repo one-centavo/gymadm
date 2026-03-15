@@ -18,4 +18,12 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', Index::class)->name('dashboard');
+
+    Route::post('/logout', function (Request $request) {
+        auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
+    })->name('logout');
 });
