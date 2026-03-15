@@ -11,7 +11,6 @@ use App\Http\Requests\VerifyOtpRequest;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
 use Livewire\Attributes\Url;
 use RuntimeException;
 use Exception;
@@ -123,7 +122,7 @@ class RegisterForm extends Component
         $this->step = 3;
     }
 
-    public function registerMember(): ?RedirectResponse
+    public function registerMember(): void
     {
         $request = new RegisterRequest();
         $validatedData = $this->validate(
@@ -134,25 +133,27 @@ class RegisterForm extends Component
 
         if (!$this->registrationService->checkDocumentUniqueness($this->document_type, $this->document_number)) {
             $this->addError('document_number', 'Este documento ya se encuentra registrado en el sistema.');
-            return null;
+            return;
         }
 
         $validatedData['email'] = $this->email;
 
         try {
             $this->registrationService->registerByMember($validatedData);
+            session()->flash('message', '¡Registro exitoso! Ya puedes iniciar sesión en tu gimnasio.');
+            $this->redirectRoute('login');
             $this->showSuccessModal = true;
-            return null;
+            return;
         } catch (Exception $e) {
             Log::error('Error en registro de GYMADM: ' . $e->getMessage());
             $this->addError('registration', 'Ocurrió un error inesperado. Por favor, intenta de nuevo.');
-            return null;
         }
     }
 
-    public function goToLogin(): RedirectResponse
+
+    public function goToLogin(): void
     {
-        return redirect()->route('login');
+        $this->redirectRoute('login');
     }
 
     public function render(): view
