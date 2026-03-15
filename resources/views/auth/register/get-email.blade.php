@@ -30,7 +30,7 @@
         <span wire:loading>Cargando...</span>
     </button>
 </div>
-<div>
+<div class="mt-4 flex items-center justify-center gap-2">
     <span class="text-sm text-gray-500">¿Ya tienes una cuenta?</span>
     <a href="#" class="text-sm text-black underline underline-offset-4 decoration-gym-blue decoration-3 cursor-pointer hover:bg-gray-400/20">Inicia sesión</a>
 </div>

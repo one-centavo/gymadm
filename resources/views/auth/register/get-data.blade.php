@@ -21,7 +21,9 @@
                 wire:key="input-first-name"
                 class="border-2 w-full p-3 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none"
             >
-
+            @error('first_name')
+            <span class="block mt-1 text-red-500 text-xs font-bold normal-case">{{ $message }}</span>
+            @enderror
         </label>
         <label class="text-sm font-black">
             SEGUNDO NOMBRE
@@ -33,7 +35,9 @@
                 wire:key="input-second-name"
                 class="border-2 w-full p-3 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none"
             >
-
+            @error('middle_name')
+            <span class="block mt-1 text-red-500 text-xs font-bold normal-case">{{ $message }}</span>
+            @enderror
         </label>
         <label class="text-sm font-black">
             PRIMER APELLIDO
@@ -45,7 +49,9 @@
                 wire:key="input-first-last-name"
                 class="border-2 w-full p-3 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none"
             >
-
+            @error('last_name')
+            <span class="block mt-1 text-red-500 text-xs font-bold normal-case">{{ $message }}</span>
+            @enderror
         </label>
         <label class="text-sm font-black">
             SEGUNDO APELLIDO
@@ -57,13 +63,22 @@
                 wire:key="input-second-last-name"
                 class="border-2 w-full p-3 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none"
             >
-
+            @error('second_last_name')
+            <span class="block mt-1 text-red-500 text-xs font-bold normal-case">{{ $message }}</span>
+            @enderror
         </label>
         <label class="text-sm font-black">
             TIPO DE DOCUMENTO
             <select wire:model="document_type" class="border-2 w-full p-3 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none">
-                <option disabled selected>Seleccionar</option>
+                <option value="" disabled>Seleccionar</option>
+                <option value="TI">TI</option>
+                <option value="CC">CC</option>
+                <option value="CE">CE</option>
+                <option value="PP">PP (Pasaporte)</option>
             </select>
+            @error('document_type')
+            <span class="block mt-1 text-red-500 text-xs font-bold normal-case">{{ $message }}</span>
+            @enderror
         </label>
 
         <label class="text-sm font-black">
@@ -76,7 +91,9 @@
                 wire:key="input-document-number"
                 class="border-2 w-full p-3 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none"
             >
-
+            @error('document_number')
+            <span class="block mt-1 text-red-500 text-xs font-bold normal-case">{{ $message }}</span>
+            @enderror
         </label>
         <label class="text-sm font-black col-span-2">
             NUMERO DE CELULAR
@@ -88,34 +105,111 @@
                 wire:key="input-document-number-2"
                 class="border-2 w-full p-3 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none"
             >
-
+            @error('phone_number')
+            <span class="block mt-1 text-red-500 text-xs font-bold normal-case">{{ $message }}</span>
+            @enderror
         </label>
-        <label class="text-sm font-black">
-            CONTRASEÑA
-            <input
-                type="text"
-                placeholder="********"
-                maxlength="50"
-                wire:model="password"
-                wire:key="input-password"
-                class="border-2 w-full p-3 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none"
-            >
+        <div class="contents" x-data="{
+            showPassword: false,
+            showPasswordConfirmation: false,
+            password: '',
+            passwordConfirmation: '',
+            passwordRules: [
+                { key: 'min', label: 'Minimo 8 caracteres', test: value => value.length >= 8 },
+                { key: 'upper', label: 'Al menos una letra mayuscula', test: value => /[A-Z]/.test(value) },
+                { key: 'lower', label: 'Al menos una letra minuscula', test: value => /[a-z]/.test(value) },
+                { key: 'number', label: 'Al menos un numero', test: value => /[0-9]/.test(value) },
+                { key: 'symbol', label: 'Al menos un simbolo', test: value => /[^A-Za-z0-9]/.test(value) },
+            ],
+            meets(rule) {
+                return rule.test(this.password || '');
+            },
+            hasPassword() {
+                return (this.password || '').length > 0;
+            },
+            hasConfirmation() {
+                return (this.passwordConfirmation || '').length > 0;
+            },
+            matchesConfirmation() {
+                return this.hasPassword() && this.password === this.passwordConfirmation;
+            }
+        }">
+            <label class="text-sm font-black">
+                CONTRASEÑA
+                <div class="relative mt-1">
+                    <input
+                        :type="showPassword ? 'text' : 'password'"
+                        x-model="password"
+                        placeholder="********"
+                        maxlength="50"
+                        wire:model="password"
+                        wire:key="input-password"
+                        class="border-2 w-full p-3 pr-11 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none"
+                    >
+                    <button
+                        type="button"
+                        class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-600 hover:text-black cursor-pointer"
+                        @click="showPassword = !showPassword"
+                        :aria-label="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+                        :aria-pressed="showPassword.toString()"
+                    >
+                        <x-heroicon-o-eye x-show="!showPassword" x-cloak class="w-5 h-5" />
+                        <x-heroicon-o-eye-slash x-show="showPassword" x-cloak class="w-5 h-5" />
+                    </button>
+                </div>
+                @error('password')
+                <span class="block mt-1 text-red-500 text-xs font-bold normal-case">{{ $message }}</span>
+                @enderror
+            </label>
 
-        </label>
-        <label class="text-sm font-black">
-            CONFIRMACIÓN
-            <input
-                type="text"
-                placeholder="********"
-                maxlength="50"
-                wire:model="password_confirmation"
-                wire:key="input-password-confirmation"
-                class="border-2 w-full p-3 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none"
-            >
+            <label class="text-sm font-black">
+                CONFIRMACIÓN
+                <div class="relative mt-1">
+                    <input
+                        :type="showPasswordConfirmation ? 'text' : 'password'"
+                        x-model="passwordConfirmation"
+                        placeholder="********"
+                        maxlength="50"
+                        wire:model="password_confirmation"
+                        wire:key="input-password-confirmation"
+                        class="border-2 w-full p-3 pr-11 focus:shadow-blue-gym focus:transition-shadow duration-75 focus:outline-none"
+                    >
+                    <button
+                        type="button"
+                        class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-600 hover:text-black cursor-pointer"
+                        @click="showPasswordConfirmation = !showPasswordConfirmation"
+                        :aria-label="showPasswordConfirmation ? 'Ocultar confirmación de contraseña' : 'Mostrar confirmación de contraseña'"
+                        :aria-pressed="showPasswordConfirmation.toString()"
+                    >
+                        <x-heroicon-o-eye x-show="!showPasswordConfirmation" x-cloak class="w-5 h-5" />
+                        <x-heroicon-o-eye-slash x-show="showPasswordConfirmation" x-cloak class="w-5 h-5" />
+                    </button>
+                </div>
+                @error('password_confirmation')
+                <span class="block mt-1 text-red-500 text-xs font-bold normal-case">{{ $message }}</span>
+                @enderror
+            </label>
 
-        </label>
-        @error('otp')
-        <span class="text-red-500 text-sm font-bold">{{ $message }}</span>
+            <div class="col-span-2 border-2 bg-gray-50 p-3 text-xs space-y-2">
+                <p class="font-black uppercase tracking-wide text-gray-700">Criterios de contraseña</p>
+                <template x-for="rule in passwordRules" :key="rule.key">
+                    <div class="flex items-center gap-2" :class="hasPassword() ? (meets(rule) ? 'text-green-600' : 'text-red-500') : 'text-gray-500'">
+                        <x-heroicon-o-check-circle x-show="hasPassword() && meets(rule)" x-cloak class="w-4 h-4 shrink-0" />
+                        <x-heroicon-o-x-circle x-show="hasPassword() && !meets(rule)" x-cloak class="w-4 h-4 shrink-0" />
+                        <x-heroicon-o-minus-circle x-show="!hasPassword()" x-cloak class="w-4 h-4 shrink-0" />
+                        <span x-text="rule.label"></span>
+                    </div>
+                </template>
+                <div class="flex items-center gap-2" :class="hasConfirmation() ? (matchesConfirmation() ? 'text-green-600' : 'text-red-500') : 'text-gray-500'">
+                    <x-heroicon-o-check-circle x-show="hasConfirmation() && matchesConfirmation()" x-cloak class="w-4 h-4 shrink-0" />
+                    <x-heroicon-o-x-circle x-show="hasConfirmation() && !matchesConfirmation()" x-cloak class="w-4 h-4 shrink-0" />
+                    <x-heroicon-o-minus-circle x-show="!hasConfirmation()" x-cloak class="w-4 h-4 shrink-0" />
+                    <span>La confirmacion debe coincidir con la contrasena</span>
+                </div>
+            </div>
+        </div>
+        @error('registration')
+        <span class="text-red-500 text-sm font-bold col-span-2">{{ $message }}</span>
         @enderror
     </div>
 

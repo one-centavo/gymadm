@@ -33,4 +33,32 @@ class RegisterRequest extends FormRequest
             'phone_number'    => $this->phoneRules(),
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'required' => 'El campo :attribute es obligatorio.',
+            'string' => 'El campo :attribute debe ser texto.',
+            'max' => 'El campo :attribute no debe superar :max caracteres.',
+            'regex' => 'El formato de :attribute no es válido.',
+            'confirmed' => 'La confirmación de la contraseña no coincide.',
+            'in' => 'El valor seleccionado para :attribute no es válido.',
+            'unique' => 'El :attribute ya está registrado.',
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'first_name' => 'primer nombre',
+            'middle_name' => 'segundo nombre',
+            'last_name' => 'primer apellido',
+            'second_last_name' => 'segundo apellido',
+            'password' => 'contraseña',
+            'password_confirmation' => 'confirmación de contraseña',
+            'document_type' => 'tipo de documento',
+            'document_number' => 'número de documento',
+            'phone_number' => 'número de celular',
+        ];
+    }
 }
