@@ -40,19 +40,19 @@ class LoginForm extends Component
 
         if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
             $seconds = RateLimiter::availableIn($throttleKey);
-            $this->addError('email', "Demasiados intentos. Intenta nuevamente en {$seconds} segundos.");
+            $this->addError('email', "Demasiados intentos. Intenta nuevamente en $seconds segundos.");
             return;
         }
 
         try{
             if (!$this->authService->login($credentials)) {
-                RateLimiter::hit($throttleKey, 60);
+                RateLimiter::hit($throttleKey);
                 $this->addError('email', 'Correo o contraseña incorrectos.');
                 return;
             }
 
             RateLimiter::clear($throttleKey);
-            $this->redirectIntended(default: '/');
+            $this->redirectIntended();
 
         }catch (Exception $e){
             report($e);
