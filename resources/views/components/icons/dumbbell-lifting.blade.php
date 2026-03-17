@@ -1,5 +1,5 @@
 <svg {{ $attributes->merge(['class' => 'w-6 h-6']) }}
-     viewBox="0 0 640 640"
+     viewBox="80 160 480 480"
      xmlns="http://www.w3.org/2000/svg"
      preserveAspectRatio="xMidYMid meet">
     <g transform="translate(0.000000,640.000000) scale(0.100000,-0.100000)"
