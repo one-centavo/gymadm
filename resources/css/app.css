@@ -16,6 +16,7 @@
     --shadow-brutal: 4px 4px 0px 0px #000;
     --shadow-brutal-sm: 2px 2px 0px 0px #000;
     --shadow-blue-gym: 5px 5px 0px 0px var(--color-gym-blue);
+
 }
 
 @layer base {
