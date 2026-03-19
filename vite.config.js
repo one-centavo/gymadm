@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => {
             host: '0.0.0.0',
             port: 5173,
             strictPort: true,
+            cors: true,
             hmr: {
                 host: env.VITE_SERVER_HOST || 'localhost',
                 clientPort: 5173,
