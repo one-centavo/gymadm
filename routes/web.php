@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Auth\RecoveryForm;
 use App\Livewire\Auth\RegisterForm;
 use App\Livewire\Auth\LoginForm;
 use App\Livewire\Dashboard\Index;
@@ -17,6 +18,7 @@ Route::get('/', function () {
 Route::middleware('guest')->group(function () {
     Route::get('/login', LoginForm::class)->name('login');
     Route::get('/register', RegisterForm::class)->name('register');
+    Route::get('recovery-account', RecoveryForm::class)->name('recovery-account');
 });
 
 Route::middleware('auth')->group(function () {
