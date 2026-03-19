@@ -71,7 +71,7 @@
 						@enderror
 					</div>
 
-					<a href="#" class="ml-auto w-fit border-b-2 border-gray-900 text-xl font-bold uppercase text-gray-900">¿Olvidaste tu contraseña?</a>
+					<a href="{{route('recovery-account')}}" class="ml-auto w-fit border-b-2 border-gray-900 text-xl font-bold uppercase text-gray-900">¿Olvidaste tu contraseña?</a>
 
 					<button
 						type="submit"
