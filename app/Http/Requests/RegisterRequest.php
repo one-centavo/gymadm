@@ -21,17 +21,27 @@ class RegisterRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array {
-        return [
+    public function rules(bool $requiresEmail = false, bool $requiresPassword = true): array {
+
+        $rules = [
             'first_name'      => $this->nameRules(),
             'middle_name'     => $this->optionalNameRules(),
             'last_name'       => $this->nameRules(),
             'second_last_name' => $this->optionalNameRules(),
-            'password'        => $this->passwordRules(true),
             'document_type'   => $this->documentRules()['document_type'],
             'document_number' => $this->documentRules()['document_number'],
             'phone_number'    => $this->phoneRules(),
         ];
+
+        if($requiresEmail){
+            $rules['email'] = $this->emailRules();
+        }
+
+        if ($requiresPassword) {
+            $rules['password'] = $this->passwordRules();
+        }
+
+        return $rules;
     }
 
     public function messages(): array
@@ -59,6 +69,7 @@ class RegisterRequest extends FormRequest
             'document_type' => 'tipo de documento',
             'document_number' => 'número de documento',
             'phone_number' => 'número de celular',
+            'email' => 'correo electrónico',
         ];
     }
 }
