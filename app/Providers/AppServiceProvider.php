@@ -8,7 +8,7 @@ use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * CreateMember any application services.
      */
     public function register(): void
     {

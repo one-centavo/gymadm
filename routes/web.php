@@ -2,10 +2,12 @@
 
 use App\Livewire\Auth\RecoveryForm;
 use App\Livewire\Auth\RegisterForm;
+use App\Models\User;
+use Illuminate\Support\Facades\Route;
 use App\Livewire\Auth\LoginForm;
 use App\Livewire\Dashboard\Index;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Livewire\Member\Index as MembersIndex;
 
 Route::get('/', function () {
     return auth()->check()
@@ -32,9 +34,7 @@ Route::middleware('auth')->group(function () {
         return redirect()->route('login');
     })->name('logout');
 
-    Route::get('/miembros', function () {
-        return view('members.index');
-    })->name('members.index');
+    Route::get('/miembros', MembersIndex::class)->name('members.index');
 
     Route::get('/membresias', function () {
         return view('memberships.index');
@@ -47,4 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/historial', function () {
         return view('history.index');
     })->name('history.index');
+    Route::get('/members/{member}/manage', function (User $member) {
+        return "Gestión del miembro: " . $member->first_name;
+    })->name('memberships.manage');
 });
