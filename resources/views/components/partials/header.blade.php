@@ -9,11 +9,11 @@
         <button
             @click="open = !open"
             @click.outside="open = false"
-            class="flex items-center gap-2 px-3 py-1 border-2 border-transparent hover:border-black hover:bg-black hover:text-gym-blue transition-all duration-100 group cursor-pointer"
+            class="flex items-center gap-2  py-1 border-2 border-transparent hover:border-black hover:bg-black hover:text-gym-blue transition-all duration-100 group cursor-pointer"
             x-bind:class="{ 'border-black! bg-black! text-gym-blue!': open }"
         >
             <div class="flex items-center gap-2 font-bold uppercase text-sm">
-                <span>Administrador</span>
+                <span class="hidden md:inline">Administrador</span>
                 <x-heroicon-o-user-circle class="h-8 w-8 stroke-2"/>
             </div>
 
