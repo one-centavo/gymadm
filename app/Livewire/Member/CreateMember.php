@@ -12,7 +12,7 @@ use Exception;
 class CreateMember extends Component
 {
 
-    public bool $open = true;
+    public bool $open = false;
 
     public string $first_name = '';
     public string $middle_name = '';
