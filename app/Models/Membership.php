@@ -71,4 +71,20 @@ class Membership extends Model
     {
         return $this->belongsTo(MembershipPlan::class,'membership_plan_id');
     }
+
+    public function getDaysRemaining():int
+    {
+        return now()->startOfDay()->diffInDays($this->end_date,false);
+    }
+
+    public function isExpired():bool
+    {
+        return $this->getDaysRemaining() < 0;
+    }
+
+    public function isExpiringSoon():bool
+    {
+        $days = $this->getDaysRemaining();
+        return $days >= 0 && $days <= 7;
+    }
 }
