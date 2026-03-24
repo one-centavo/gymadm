@@ -111,7 +111,7 @@ class MemberService
         )->paginate(10);
     }
 
-    public function updateMemberInfo(int $id, array $data)
+    public function updateMemberInfo(int $id, array $data) : Void
     {
         $this->userModel
             ->where('id',$id)
@@ -130,5 +130,19 @@ class MemberService
     public function getMemberById(int $id): User
     {
         return $this->userModel->findOrFail($id);
+    }
+
+    public function toggleStatus(int $id): string
+    {
+        $user = $this->userModel->findOrFail($id);
+
+        $newStatus = match ($user->status) {
+            'active'  => 'inactive',
+            'pending','inactive' => 'active'
+        };
+
+        $user->update(['status' => $newStatus]);
+
+        return $newStatus;
     }
 }
