@@ -88,7 +88,6 @@ class MemberService
             });
         }
 
-        // Aplicación de filtros de estado
         if ($statusFilter === 'active') {
             $query->whereHas('memberships', function ($q) use ($today) {
                 $q->where('end_date', '>=', $today);
@@ -110,5 +109,26 @@ class MemberService
                 ->limit(1),
             'asc'
         )->paginate(10);
+    }
+
+    public function updateMemberInfo(int $id, array $data)
+    {
+        $this->userModel
+            ->where('id',$id)
+            ->update([
+                'first_name'      => $data['first_name'],
+                'middle_name'     => $data['middle_name'] ?? null,
+                'last_name'       => $data['last_name'],
+                'second_lastname' => $data['second_lastname'] ?? null,
+                'email'           => $data['email'],
+                'document_type'   => $data['document_type'],
+                'document_number' => $data['document_number'],
+                'phone_number'    => $data['phone_number'],
+            ]);
+    }
+
+    public function getMemberById(int $id): User
+    {
+        return $this->userModel->findOrFail($id);
     }
 }
