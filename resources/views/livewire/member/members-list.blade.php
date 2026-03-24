@@ -117,6 +117,11 @@
                                     class="p-1 border-2 border-black hover:bg-pink-500 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 active:shadow-none">
                                     <x-heroicon-o-pencil class="h-4 w-4"/>
                                 </button>
+                                <button
+                                    wire:click="$dispatch('open-status-modal', { id: {{ $member->id }} })"
+                                    class="p-1 border-2 border-black {{ $member->status === 'active' ? 'bg-red-400' : 'bg-green-400' }} shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                                    <x-heroicon-o-power class="h-4 w-4"/>
+                                </button>
                             </td>
                         </tr>
                     @empty
