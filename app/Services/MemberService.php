@@ -54,31 +54,19 @@ class MemberService
 
     public function getMembersStats(): array
     {
-        $today = now()->startOfDay();
-        $daysForExpiring = now()->addDays(3)->endOfDay();
         $queryBase = $this->userModel->where('role', 'member');
 
         return [
-            'total' => (clone $queryBase)->count(),
-
-            'expiring' => (clone $queryBase)->whereHas('memberships', function ($query) use ($today, $daysForExpiring) {
-                $query->whereBetween('end_date', [$today, $daysForExpiring]);
-            })->count(),
-
-            'expired' => (clone $queryBase)->whereHas('memberships', function ($query) use ($today) {
-                $query->where('end_date', '<', $today);
-            })->count()
+            'total'    => (clone $queryBase)->count(),
+            'active'   => (clone $queryBase)->where('status', 'active')->count(),
+            'inactive' => (clone $queryBase)->where('status', 'inactive')->count(),
+            'pending'  => (clone $queryBase)->where('status', 'pending')->count(),
         ];
     }
 
     public function getPaginatedList(string $search = '', string $statusFilter = 'all'): LengthAwarePaginator
     {
-        $today = now()->startOfDay();
-
-        $query = $this->userModel->select('users.*')
-            ->distinct()
-            ->where('role', 'member')
-            ->with('activeMembership');
+        $query = $this->userModel->where('role', 'member')->with('activeMembership');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -88,27 +76,12 @@ class MemberService
             });
         }
 
-        if ($statusFilter === 'active') {
-            $query->whereHas('memberships', function ($q) use ($today) {
-                $q->where('end_date', '>=', $today);
-            });
-        } elseif ($statusFilter === 'expired') {
-            $query->whereHas('memberships', function ($q) use ($today) {
-                $q->where('end_date', '<', $today);
-            });
-        } elseif ($statusFilter === 'expiring') {
-            $query->whereHas('memberships', function ($q) use ($today) {
-                $q->whereBetween('end_date', [$today, now()->addDays(3)]);
-            });
+
+        if (in_array($statusFilter, ['active', 'inactive', 'pending'])) {
+            $query->where('status', $statusFilter);
         }
 
-        return $query->orderBy(
-            Membership::select('end_date')
-                ->whereColumn('user_id', 'users.id')
-                ->latest('end_date')
-                ->limit(1),
-            'asc'
-        )->paginate(10);
+        return $query->latest()->paginate(10); // Ordenamos por lo más reciente
     }
 
     public function updateMemberInfo(int $id, array $data) : Void
