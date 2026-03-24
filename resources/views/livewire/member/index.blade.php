@@ -11,4 +11,5 @@
 
     <livewire:member.create-member/>
     <livewire:member.update-member-info/>
+    <livewire:member.toggle-status-member/>
 </section>
