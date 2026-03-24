@@ -10,4 +10,5 @@
     <livewire:member.members-list />
 
     <livewire:member.create-member/>
+    <livewire:member.update-member-info/>
 </section>

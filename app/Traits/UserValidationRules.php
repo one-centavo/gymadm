@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 use Illuminate\Validation\Rules\Password;
-
+use Illuminate\Validation\Rule;
 
 trait UserValidationRules
 {
@@ -15,20 +15,25 @@ trait UserValidationRules
         return ['nullable', 'string', 'max:50', 'regex:/^[a-zA-Z\sñáéíóúÁÉÍÓÚ]+$/u'];
     }
 
-    protected function emailRules($isUnique = true): array{
+    protected function emailRules(bool $isUnique = true, ?int $ignoreUserId = null): array{
         $rules = ['required', 'string', 'email', 'max:255'];
 
-        if($isUnique){
-            $rules[] = 'unique:users,email';
+        if ($isUnique) {
+            $rules[] = Rule::unique('users', 'email')->ignore($ignoreUserId);
         }
 
         return $rules;
     }
 
-    protected function documentRules(): array {
+    protected function documentRules(?int $ignoreUserId = null): array {
         return [
             'document_type' => ['required', 'string', 'max:10', 'in:CC,TI,CE,PP'],
-            'document_number' => ['required', 'string', 'max:20', 'unique:users,document_number'],
+            'document_number' => [
+                'required',
+                'string',
+                'max:20',
+                Rule::unique('users', 'document_number')->ignore($ignoreUserId)
+            ],
         ];
     }
 
@@ -38,8 +43,14 @@ trait UserValidationRules
             : ['required'];
     }
 
-    protected function phoneRules() : array {
-        return ['required', 'string', 'max:50', 'unique:users,phone_number'];
+    protected function phoneRules(bool $isUnique = true, ?int $ignoreUserId = null) : array {
+        $rules = ['required', 'string', 'max:50'];
+
+        if ($isUnique) {
+            $rules[] = Rule::unique('users', 'phone_number')->ignore($ignoreUserId);
+        }
+
+        return $rules;
     }
 
     protected function otpRules(): array{
