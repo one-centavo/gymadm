@@ -32,4 +32,30 @@ class CreateMembershipPlanRequest extends FormRequest
             'duration_unit' => $this->durationUnitRules(),
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'required' => 'El campo :attribute es obligatorio.',
+            'string' => 'El campo :attribute debe ser texto.',
+            'numeric' => 'El campo :attribute debe ser un valor numérico.',
+            'max.string' => 'El campo :attribute no debe superar :max caracteres.',
+            'max.numeric' => 'El campo :attribute no debe ser mayor que :max.',
+            'min.numeric' => 'El campo :attribute debe ser al menos :min.',
+            'regex' => 'El formato de :attribute no es válido.',
+            'unique' => 'El campo :attribute ya está registrado.',
+            'in' => 'El valor seleccionado para :attribute no es válido.',
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'name' => 'nombre del plan',
+            'description' => 'descripción del plan',
+            'price' => 'precio',
+            'duration_value' => 'duración',
+            'duration_unit' => 'unidad de duración',
+        ];
+    }
 }
