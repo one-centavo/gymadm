@@ -2,21 +2,19 @@
 
 namespace App\Livewire\Auth;
 
-use App\Http\Requests\PasswordRecoveryOtpRequest;
-use App\Http\Requests\PasswordRecoveryRequest;
-use App\Http\Requests\VerifyOtpRequest;
+use App\Http\Requests\User\PasswordRecoveryOtpRequest;
+use App\Http\Requests\User\PasswordRecoveryRequest;
+use App\Http\Requests\User\VerifyOtpRequest;
 use App\Models\SecurityCode;
 use App\Services\PasswordRecoveryService;
-use Illuminate\View\View;
-use Livewire\Attributes\Url;
-use RuntimeException;
-use App\Models\User;
-use Livewire\Attributes\Layout;
-use Livewire\Component;
-use Validator;
-use Illuminate\Validation\ValidationException;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
+use Livewire\Component;
+use RuntimeException;
 
 #[Layout('components.layouts.guest')]
 class RecoveryForm extends Component

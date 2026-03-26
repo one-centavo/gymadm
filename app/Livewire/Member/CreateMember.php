@@ -2,12 +2,12 @@
 
 namespace App\Livewire\Member;
 
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\User\RegisterRequest;
 use App\Services\MemberService;
 use App\Services\RegistrationService;
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
-use Exception;
 
 class CreateMember extends Component
 {

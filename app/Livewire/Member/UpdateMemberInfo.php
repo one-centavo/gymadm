@@ -3,10 +3,10 @@
 
 namespace App\Livewire\Member;
 
+use App\Http\Requests\User\UpdateMemberInfoRequest;
 use App\Services\MemberService;
-use App\Http\Requests\UpdateMemberInfoRequest;
-use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\Component;
 
 class UpdateMemberInfo extends Component
 {
