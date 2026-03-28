@@ -13,7 +13,16 @@ class PlanService
         $this->planModel = $planModel;
     }
 
-    public function createPlan($data) : MembershipPlan
+    /**
+     * @param array{
+     *     name: string,
+     *     description: string,
+     *     price: mixed,
+     *     duration_value: int|string,
+     *     duration_unit: string
+     * } $data
+     */
+    public function createPlan(array $data) : MembershipPlan
     {
         return $this->planModel->create([
             'name' => $data['name'],

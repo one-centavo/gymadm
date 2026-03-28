@@ -47,7 +47,7 @@
             <div class="relative flex-1">
                 <x-heroicon-o-magnifying-glass class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400"/>
                 <input
-                    wire:model.livedebounce.500ms="search"
+                    wire:model.live.debounce.500ms="search"
                     type="text"
                     placeholder="Buscar por nombre o ID..."
                     class="w-full border-2 border-black pl-10 pr-4 py-2 font-bold text-sm outline-none focus:border-gym-blue bg-white"
