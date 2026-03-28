@@ -16,7 +16,7 @@ class PlanService
     /**
      * @param array{
      *     name: string,
-     *     description: string,
+     *     description?: string|null,
      *     price: mixed,
      *     duration_value: int|string,
      *     duration_unit: string
