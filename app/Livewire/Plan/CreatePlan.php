@@ -19,18 +19,13 @@ class CreatePlan extends Component
 
     public function create(PlanService $planService) : void
     {
-        $request = new CreateMembershipPlanRequest();
-        $validatedData = $this->validate(
-            $request->rules(),
-            $request->messages(),
-            $request->attributes()
-        );
         try{
-            if(!$planService->isNameAvailable($this->name)){
-                $this->addError('name', "El nombre  '$this->name' ya  se encuentra registrado en otro plan");
-                return;
-            }
-
+            $request = new CreateMembershipPlanRequest();
+            $validatedData = $this->validate(
+                $request->rules(),
+                $request->messages(),
+                $request->attributes()
+            );
             $planService->createPlan($validatedData);
 
             session()->flash('message', 'Plan creado exitosamente.');

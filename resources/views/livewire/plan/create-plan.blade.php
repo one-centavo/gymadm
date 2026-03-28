@@ -42,7 +42,6 @@
                 <option value="days">Días</option>
                 <option value="weeks">Semanas</option>
                 <option value="months">Meses</option>
-                <option value="years">Años</option>
             </select>
             @error('duration_unit') <span class="text-pink-600 font-black text-xs uppercase italic">{{ $message }}</span> @enderror
         </div>
