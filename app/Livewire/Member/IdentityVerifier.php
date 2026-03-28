@@ -15,16 +15,14 @@ class IdentityVerifier extends Component
     {
         $this->memberService = $memberService;
     }
-    public function processIdentification(){
-
+    public function processIdentification()
+    {
         $findMember = $this->memberService->verifyByDocumentNumber($this->document_number);
 
         if($findMember) {
             return redirect()->route('memberships.manage', $findMember);
         }
-
-        $this->dispatch('open-registration-form-with-document', documento: $this->document_number);
-
-
+        $this->dispatch('prefix-registration-form', documento: $this->document_number);
+        $this->reset('document_number');
     }
 }
