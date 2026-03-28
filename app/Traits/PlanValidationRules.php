@@ -13,7 +13,7 @@ trait PlanValidationRules
             'string',
             'max:50',
             'regex:/^[a-zA-Z\sñáéíóúÁÉÍÓÚ]+$/u',
-            Rule::unique('plans', 'name')->ignore($ignorePlanId)
+            Rule::unique('membership_plans', 'name')->ignore($ignorePlanId)
         ];
     }
 
