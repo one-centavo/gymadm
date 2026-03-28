@@ -8,6 +8,7 @@ use App\Livewire\Auth\LoginForm;
 use App\Livewire\Dashboard\Index;
 use Illuminate\Http\Request;
 use App\Livewire\Member\Index as MembersIndex;
+use App\Livewire\Plan\Index as MembershipPlansIndex;
 
 Route::get('/', function () {
     return auth()->check()
@@ -40,9 +41,7 @@ Route::middleware('auth')->group(function () {
         return view('memberships.index');
     })->name('memberships.index');
 
-    Route::get('/planes', function () {
-        return view('plans.index');
-    })->name('plans.index');
+    Route::get('/planes', MembershipPlansIndex::class)->name('plans.index');
 
     Route::get('/historial', function () {
         return view('history.index');
