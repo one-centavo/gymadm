@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\UserValidationRules;
+use Illuminate\Foundation\Http\FormRequest;
 
 class VerifyOtpRequest extends FormRequest
 {

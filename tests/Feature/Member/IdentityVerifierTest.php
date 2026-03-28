@@ -40,6 +40,6 @@ class IdentityVerifierTest extends TestCase
         Livewire::test(IdentityVerifier::class)
             ->set('document_number', '99999')
             ->call('processIdentification')
-            ->assertDispatched('open-registration-form-with-document', documento: '99999');
+            ->assertDispatched('prefix-registration-form', documento: '99999');
     }
 }

@@ -18,7 +18,6 @@ class CreateMemberTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
         $this->mock(OtpService::class, function (MockInterface $mock) {
             $mock->shouldReceive('send')->andReturn(true);
         });
@@ -47,7 +46,6 @@ class CreateMemberTest extends TestCase
             ->assertHasNoErrors()
             ->assertDispatched('member.registered')
             ->assertSet('open', false);
-
         $this->assertDatabaseHas('users', [
             'email' => 'juan@example.com',
             'document_number' => '1234567890',
@@ -78,11 +76,10 @@ class CreateMemberTest extends TestCase
         ]);
     }
 
-    public function test_it_listens_to_open_registration_form_event()
+    public function test_it_listens_to_prefix_registration_form_event()
     {
         Livewire::test(CreateMember::class)
-            ->set('open', false)
-            ->dispatch('open-registration-form-with-document', documento: '1122334455')
-            ->assertSet('open', true);
+            ->dispatch('prefix-registration-form', documento: '1122334455')
+            ->assertSet('document_number', '1122334455');
     }
 }

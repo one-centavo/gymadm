@@ -2,18 +2,18 @@
 
 namespace App\Livewire\Auth;
 
-use Livewire\Attributes\Layout;
-use Livewire\Component;
-use App\Services\RegistrationService;
+use App\Http\Requests\User\RegisterRequest;
+use App\Http\Requests\User\SendOtpRequest;
+use App\Http\Requests\User\VerifyOtpRequest;
 use App\Models\SecurityCode;
-use App\Http\Requests\SendOtpRequest;
-use App\Http\Requests\VerifyOtpRequest;
-use App\Http\Requests\RegisterRequest;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Contracts\View\View;
-use Livewire\Attributes\Url;
-use RuntimeException;
+use App\Services\RegistrationService;
 use Exception;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
+use Livewire\Component;
+use RuntimeException;
 
 #[Layout('components.layouts.guest')]
 class RegisterForm extends Component

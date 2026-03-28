@@ -47,7 +47,7 @@
             <div class="relative flex-1">
                 <x-heroicon-o-magnifying-glass class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400"/>
                 <input
-                    wire:model.live="search"
+                    wire:model.livedebounce.500ms="search"
                     type="text"
                     placeholder="Buscar por nombre o ID..."
                     class="w-full border-2 border-black pl-10 pr-4 py-2 font-bold text-sm outline-none focus:border-gym-blue bg-white"
@@ -80,7 +80,7 @@
                     </thead>
                     <tbody class="divide-y-2 divide-black bg-white">
                     @forelse($members as $member)
-                        <tr class="bg-white hover:bg-slate-50 transition-colors {{ $member->status === 'inactive' ? 'opacity-60' : '' }}">
+                        <tr wire:key="member-{{ $member->id }}" class="bg-white hover:bg-slate-50 transition-colors {{ $member->status === 'inactive' ? 'opacity-60' : '' }}">
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-bold border-r-2 border-black/5">
                                 {{ $member->document_number }}
                             </td>

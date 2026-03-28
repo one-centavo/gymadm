@@ -33,7 +33,7 @@ Livewire::test(UpdateMemberInfo::class)
 public function debe_actualizar_la_informacion_correctamente()
 {
 $member = User::factory()->create([
-'first_name' => 'Nombre Antiguo',
+'first_name' => 'Nombre Antiguo', 'last_name' => 'Apellido Valido'
 ]);
 
 Livewire::test(UpdateMemberInfo::class)
