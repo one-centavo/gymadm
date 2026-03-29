@@ -59,4 +59,15 @@ class PlanService
 
         return $query->latest()->paginate(10);
     }
+
+    public function updatePlan(int $id, array $data) : void
+    {
+        $this->planModel->where('id', $id)->update([
+            'name'           => $data['name'],
+            'description'    => $data['description'] ?? null,
+            'price'          => $data['price'],
+            'duration_value' => $data['duration_value'],
+            'duration_unit'  => $data['duration_unit']
+        ]);
+    }
 }
