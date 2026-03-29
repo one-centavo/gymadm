@@ -14,6 +14,9 @@ class PlansList extends Component
     public string $search = '';
     public string $statusFilter = 'all';
 
+    protected $listeners = [
+        'plan.created' => '$refresh',
+    ];
 
     public function render(PlanService $planService): View
     {
