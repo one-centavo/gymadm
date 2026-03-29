@@ -35,6 +35,16 @@ class PlanService
         ]);
     }
 
+    public function getPlanStats(): array
+    {
+        $queryBase = $this->planModel->query();
+
+        return [
+            'total' => (clone $queryBase)->count(),
+            'active' => (clone $queryBase)->where('status', 'active')->count(),
+            'inactive' => (clone $queryBase)->where('status', 'inactive')->count(),
+        ];
+    }
     public function getPlanList(string $search = '', string $statusFilter = 'all'): LengthAwarePaginator
     {
         $query = $this->planModel->query();
