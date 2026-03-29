@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\MembershipPlan;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class PlanService
 {
@@ -34,14 +35,28 @@ class PlanService
         ]);
     }
 
-    public function isNameAvailable(string $name, int $excludeId = null) : bool
+    public function getPlanStats(): array
     {
-        $query = $this->planModel::where('name', $name);
+        $queryBase = $this->planModel->query();
 
-        if ($excludeId !== null) {
-            $query->where('id', '!=', $excludeId);
+        return [
+            'total' => (clone $queryBase)->count(),
+            'active' => (clone $queryBase)->where('status', 'active')->count(),
+            'inactive' => (clone $queryBase)->where('status', 'inactive')->count(),
+        ];
+    }
+    public function getPlanList(string $search = '', string $statusFilter = 'all'): LengthAwarePaginator
+    {
+        $query = $this->planModel->query();
+
+        if ($search) {
+            $query->where('name', 'like', "%{$search}%");
         }
 
-        return !$query->exists();
+        if (in_array($statusFilter, ['active', 'inactive'], true)) {
+            $query->where('status', $statusFilter);
+        }
+
+        return $query->latest()->paginate(10);
     }
 }

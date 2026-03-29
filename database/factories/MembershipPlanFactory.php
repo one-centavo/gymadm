@@ -25,4 +25,24 @@ class MembershipPlanFactory extends Factory
             'status' => 'active',
         ];
     }
+
+    /**
+     * Estado activo
+     */
+    public function active(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => 'active',
+        ]);
+    }
+
+    /**
+     * Estado inactivo
+     */
+    public function inactive(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => 'inactive',
+        ]);
+    }
 }

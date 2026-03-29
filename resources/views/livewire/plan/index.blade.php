@@ -12,7 +12,8 @@
         >
             + Crear Nuevo Plan
         </button>
-    </section>
 
+    </section>
+    <livewire:plan.plans-list/>
     <livewire:plan.create-plan/>
 </section>
