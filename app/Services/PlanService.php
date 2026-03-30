@@ -70,4 +70,9 @@ class PlanService
             'duration_unit'  => $data['duration_unit']
         ]);
     }
+
+    public function getPlanInfoById(int $id) : ?MembershipPlan
+    {
+        return $this->planModel->findOrFail($id);
+    }
 }
