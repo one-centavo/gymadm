@@ -17,4 +17,5 @@
     <livewire:plan.plans-list/>
     <livewire:plan.create-plan/>
     <livewire:plan.update-plan-info/>
+    <livewire:plan.toggle-status-plan/>
 </section>
