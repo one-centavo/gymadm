@@ -71,7 +71,7 @@ class PlanService
         ]);
     }
 
-    public function getPlanInfoById(int $id) : ?MembershipPlan
+    public function getPlanInfoById(int $id) : MembershipPlan
     {
         return $this->planModel->findOrFail($id);
     }
