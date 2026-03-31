@@ -29,7 +29,7 @@
     <div class="grid grid-cols-2 gap-4">
         <div class="flex flex-col">
             <label class="font-black uppercase text-xs tracking-widest">Duración</label>
-            <input type="number" wire:model="duration_value" min="1" class="border-4 border-black p-3 font-bold focus:bg-gym-blue/10 outline-none" placeholder="Ej: 1">
+            <input type="number" wire:model.number="duration_value" min="1" class="border-4 border-black p-3 font-bold focus:bg-gym-blue/10 outline-none" placeholder="Ej: 1">
             @error('duration_value') <span class="text-pink-600 font-black text-xs uppercase italic">{{ $message }}</span> @enderror
         </div>
 

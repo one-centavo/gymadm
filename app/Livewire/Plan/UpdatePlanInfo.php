@@ -12,11 +12,11 @@ use Log;
 class UpdatePlanInfo extends Component
 {
     public bool $open = false;
-    public string $planId = '';
+    public int $planId = 0;
     public string $name = '';
     public ?string $description = '';
     public string $price = '';
-    public string $duration_value = '';
+    public int $duration_value = 0;
     public string $duration_unit = '';
 
     protected PlanService $planService;
@@ -39,7 +39,7 @@ class UpdatePlanInfo extends Component
             'duration_unit',
         ]));
 
-        $this->planId = (string) $id;
+        $this->planId = $id;
         $this->resetErrorBag();
         $this->open = true;
     }
@@ -49,7 +49,7 @@ class UpdatePlanInfo extends Component
         try{
             $request = new EditMembershipPlanRequest();
             $validatedData = $this->validate(
-                $request->rules((int) $this->planId),
+                $request->rules($this->planId),
                 $request->messages(),
                 $request->attributes()
 
