@@ -94,6 +94,7 @@
                                 <button
                                     title="Editar"
                                     type="button"
+                                    wire:click="$dispatch('open-edit-plan',{id: {{ $plan->id }}}); $dispatch('prefix-edit-plan-form')"
                                     class="p-1 border-2 border-black hover:bg-pink-500 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 active:shadow-none">
                                     <x-heroicon-o-pencil class="h-4 w-4"/>
                                 </button>

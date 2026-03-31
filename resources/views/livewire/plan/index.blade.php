@@ -16,4 +16,5 @@
     </section>
     <livewire:plan.plans-list/>
     <livewire:plan.create-plan/>
+    <livewire:plan.update-plan-info/>
 </section>
