@@ -21,9 +21,8 @@ class EditMembershipPlanRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules(?int $planId = null): array
     {
-        $planId = $this->route('plan')?->id ?? $this->route('plan');
         return [
             'name' => $this->nameRules($planId),
             'description' => $this->descriptionRules(),
