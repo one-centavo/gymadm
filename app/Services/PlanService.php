@@ -59,4 +59,33 @@ class PlanService
 
         return $query->latest()->paginate(10);
     }
+
+    public function updatePlan(int $id, array $data) : void
+    {
+        $this->planModel->where('id', $id)->update([
+            'name'           => $data['name'],
+            'description'    => $data['description'] ?? null,
+            'price'          => $data['price'],
+            'duration_value' => $data['duration_value'],
+            'duration_unit'  => $data['duration_unit']
+        ]);
+    }
+
+    public function getPlanInfoById(int $id) : MembershipPlan
+    {
+        return $this->planModel->findOrFail($id);
+    }
+
+    public function toggleStatus(int $id): string
+    {
+        $plan = $this->planModel->findOrFail($id);
+
+        $newStatus = match ($plan->status) {
+            'active'   => 'inactive',
+            'inactive' => 'active',
+            default    => $plan->status,
+        };
+        $plan->update(['status' => $newStatus]);
+        return $newStatus;
+    }
 }

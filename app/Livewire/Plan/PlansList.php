@@ -16,6 +16,7 @@ class PlansList extends Component
 
     protected $listeners = [
         'plan.created' => '$refresh',
+        'plan.updated' => '$refresh',
     ];
 
     public function render(PlanService $planService): View
