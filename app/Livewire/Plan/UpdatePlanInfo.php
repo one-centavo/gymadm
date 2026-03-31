@@ -60,7 +60,8 @@ class UpdatePlanInfo extends Component
             $this->open = false;
 
         }catch (QueryException $e){
-            Log::error('Error creando plan de membresía', [
+            Log::error('Error actualizando plan de membresía', [
+                'plan_id' => $this->planId,
                 'name' => $this->name,
                 'error' => $e->getMessage(),
                 'code' => $e->getCode(),
