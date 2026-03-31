@@ -75,4 +75,16 @@ class PlanService
     {
         return $this->planModel->findOrFail($id);
     }
+
+    public function toggleStatus(int $id): string
+    {
+        $user = $this->planModel->findOrFail($id);
+
+        $newStatus = match ($user->status) {
+            'active'  => 'inactive',
+            'inactive' => 'active'
+        };
+        $user->update(['status' => $newStatus]);
+        return $newStatus;
+    }
 }
