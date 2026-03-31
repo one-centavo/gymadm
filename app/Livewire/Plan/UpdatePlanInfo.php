@@ -29,6 +29,8 @@ class UpdatePlanInfo extends Component
     #[On('open-edit-plan')]
     public function loadPlanData(int $id): void
     {
+        $this->reset(['name', 'description', 'price', 'duration_value', 'duration_unit', 'planId']);
+
         $plan = $this->planService->getPlanInfoById($id);
 
         $this->fill($plan->only([
