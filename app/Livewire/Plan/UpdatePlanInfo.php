@@ -56,7 +56,7 @@ class UpdatePlanInfo extends Component
             );
 
             $this->planService->updatePlan($this->planId, $validatedData);
-            $this->dispatch('plan-updated');
+            $this->dispatch('plan.updated');
             $this->open = false;
 
         }catch (QueryException $e){
