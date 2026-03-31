@@ -12,7 +12,7 @@ use Log;
 class UpdatePlanInfo extends Component
 {
     public bool $open = false;
-    public string $planId = '';
+    public ?int $planId = null;
     public string $name = '';
     public ?string $description = '';
     public string $price = '';
@@ -39,28 +39,33 @@ class UpdatePlanInfo extends Component
             'duration_unit',
         ]));
 
-        $this->planId = (string) $id;
+        $this->planId = $id;
         $this->resetErrorBag();
         $this->open = true;
     }
 
     public function update() : void
     {
+        if ($this->planId === null) {
+            return;
+        }
+
         try{
             $request = new EditMembershipPlanRequest();
             $validatedData = $this->validate(
-                $request->rules((int) $this->planId),
+                $request->rules($this->planId),
                 $request->messages(),
                 $request->attributes()
 
             );
 
             $this->planService->updatePlan($this->planId, $validatedData);
-            $this->dispatch('plan-updated');
+            $this->dispatch('plan.updated');
             $this->open = false;
 
         }catch (QueryException $e){
-            Log::error('Error creando plan de membresía', [
+            Log::error('Error actualizando plan de membresía', [
+                'plan_id' => $this->planId,
                 'name' => $this->name,
                 'error' => $e->getMessage(),
                 'code' => $e->getCode(),
