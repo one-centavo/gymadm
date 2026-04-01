@@ -24,7 +24,7 @@ class SubscriptionService
         $this->userModel = $userModel;
     }
 
-    public function assignMembership (AssignMembershipData $data): Membership
+    public function assignMembership(AssignMembershipData $data): Membership
     {
         $member = $this->userModel->where('role','member')->findOrFail($data->userId);
         $plan = $this->membershipPlanModel->where('status','active')->findOrFail($data->planId);
