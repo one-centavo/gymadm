@@ -58,13 +58,4 @@ trait MembershipValidationRules
 		];
 	}
 
-	protected function pricePaidRules(): array
-	{
-		return [
-			'required',
-			'numeric',
-			'min:0',
-			'max:9999999.99',
-		];
-	}
 }
