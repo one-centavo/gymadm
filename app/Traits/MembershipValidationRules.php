@@ -32,15 +32,6 @@ trait MembershipValidationRules
 		];
 	}
 
-	protected function endDateRules(): array
-	{
-		return [
-			'required',
-			'date',
-			'after_or_equal:start_date',
-		];
-	}
-
 	protected function paymentMethodRules(): array
 	{
 		return [
