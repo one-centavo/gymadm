@@ -51,7 +51,7 @@
     {{-- Fecha de inicio --}}
     <div class="flex flex-col mt-4">
         <label class="font-black uppercase text-xs tracking-widest">Fecha de Inicio</label>
-        <input type="date" wire:model="startDate" wire:change="updateSuggestedDates" class="border-4 border-black p-3 font-bold focus:bg-gym-blue/10 outline-none">
+        <input type="date" wire:model="startDate" wire:change="updateEndDateFromStartDate" class="border-4 border-black p-3 font-bold focus:bg-gym-blue/10 outline-none">
         @error('startDate') <span class="text-pink-600 font-black text-xs uppercase italic">{{ $message }}</span> @enderror
     </div>
 
