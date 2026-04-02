@@ -65,8 +65,24 @@ class AssignMembership extends Component
     {
         if ($this->userId > 0 && $this->planId > 0) {
             $dates = $subscriptionService->getSuggestedMembershipDates($this->userId, $this->planId);
-            $this->startDate = $dates['start_date']->toDateString();
-            $this->endDate = $dates['end_date']->toDateString();
+
+            $suggestedStartDate = $dates['start_date'];
+            $suggestedEndDate = $dates['end_date'];
+            $durationInDays = $suggestedStartDate->diffInDays($suggestedEndDate);
+
+            if ($this->startDate === '') {
+                $effectiveStartDate = $suggestedStartDate->copy();
+                $this->startDate = $effectiveStartDate->toDateString();
+            } else {
+                try {
+                    $effectiveStartDate = Carbon::parse($this->startDate);
+                } catch (Throwable $e) {
+                    $effectiveStartDate = $suggestedStartDate->copy();
+                    $this->startDate = $effectiveStartDate->toDateString();
+                }
+            }
+
+            $this->endDate = $effectiveStartDate->copy()->addDays($durationInDays)->toDateString();
             // Asignar el precio del plan seleccionado
             $plan = collect($this->planOptions)->firstWhere('id', $this->planId);
             $this->pricePaid = $plan['price'] ?? 0.0;
