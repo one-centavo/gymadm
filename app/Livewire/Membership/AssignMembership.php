@@ -20,8 +20,8 @@ class AssignMembership extends Component
     public array $planOptions = [];
     public array $members = [];
     public bool $open = false;
-	public int $userId = 0;
-	public int $planId = 0;
+	public ?int $userId = null;
+	public ?int $planId = null;
 	public string $paymentMethod = '';
 	public string $startDate = '';
 	public float $pricePaid = 0.0;
