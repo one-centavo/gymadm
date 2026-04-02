@@ -124,14 +124,16 @@ class AssignMembership extends Component
 
         }catch(QueryException $e){
             Log::error('Error al asignar la membresía', [
-                'name' => $this->name,
+                'userId' => $validatedData['userId'] ?? null,
+                'planId' => $validatedData['planId'] ?? null,
                 'error' => $e->getMessage(),
                 'code' => $e->getCode(),
             ]);
             $this->addError('assign', 'Error al asignar la membresía');
         }catch (Throwable $e){
             Log::error('Error inesperado al asignar la membresía', [
-                'name' => $this->name ?? null,
+                'userId' => $validatedData['userId'] ?? null,
+                'planId' => $validatedData['planId'] ?? null,
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
