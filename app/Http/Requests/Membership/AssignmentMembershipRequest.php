@@ -7,7 +7,7 @@ namespace App\Http\Requests\Membership;
 use App\Traits\MembershipValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AssignmentMembershipRequest extends FormRequest
+class AssignMembershipRequest extends FormRequest
 {
     use MembershipValidationRules;
 
