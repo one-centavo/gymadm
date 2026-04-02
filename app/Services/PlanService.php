@@ -89,7 +89,7 @@ class PlanService
         return $newStatus;
     }
 
-    public function getActivePlanOption(): Collection
+    public function getActivePlanOptions(): Collection
     {
         return $this->planModel->where('status', 'active')->select('id', 'name','duration_value','duration_unit','price')->orderBy('name')->get();
     }
