@@ -125,7 +125,7 @@ class MemberService
         $term = trim($term);
 
         if ($term === '') return collect();
-        return User::query()
+        return $this->userModel->newQuery()
             ->select('id', 'document_number', 'first_name', 'last_name')
             ->where('role', 'member')
             ->where(function($query) use ($term) {
