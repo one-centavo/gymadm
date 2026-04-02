@@ -27,10 +27,10 @@ class AssignMembershipRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => $this->userIdRules(),
-            'membership_plan_id' => $this->membershipPlanIdRules(),
-            'start_date' => $this->startDateRules(),
-            'payment_method' => $this->paymentMethodRules(),
+            'userId' => $this->userIdRules(),
+            'planId' => $this->membershipPlanIdRules(),
+            'startDate' => $this->startDateRules(),
+            'paymentMethod' => $this->paymentMethodRules(),
         ];
     }
 
@@ -50,10 +50,10 @@ class AssignMembershipRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'user_id' => 'miembro',
-            'membership_plan_id' => 'plan de membresía',
-            'start_date' => 'fecha de inicio',
-            'payment_method' => 'método de pago',
+            'userId' => 'miembro',
+            'planId' => 'plan de membresía',
+            'startDate' => 'fecha de inicio',
+            'paymentMethod' => 'método de pago',
         ];
     }
 }
