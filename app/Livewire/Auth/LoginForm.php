@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Auth;
 
-use App\Http\Requests\LoginRequest;
+use App\Http\Requests\User\LoginRequest;
 use App\Services\AuthService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\RateLimiter;

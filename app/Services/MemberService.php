@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\User;
 use App\Models\Membership;
 use App\Services\OtpService;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -117,5 +118,22 @@ class MemberService
         $user->update(['status' => $newStatus]);
 
         return $newStatus;
+    }
+
+    public function searchMembers(string $term) : Collection
+    {
+        $term = trim($term);
+
+        if ($term === '') return collect();
+        return $this->userModel->newQuery()
+            ->select('id', 'document_number', 'first_name', 'last_name')
+            ->where('role', 'member')
+            ->where(function($query) use ($term) {
+                $query->where('document_number', 'like', "%{$term}%")
+                    ->orWhere('first_name', 'like', "%{$term}%")
+                    ->orWhere('last_name', 'like', "%{$term}%");
+            })
+            ->limit(5)
+            ->get();
     }
 }

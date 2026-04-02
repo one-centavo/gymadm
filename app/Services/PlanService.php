@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\MembershipPlan;
 use Illuminate\Pagination\LengthAwarePaginator;
-
+use Illuminate\Support\Collection;
 class PlanService
 {
     protected MembershipPlan $planModel;
@@ -87,5 +87,10 @@ class PlanService
         };
         $plan->update(['status' => $newStatus]);
         return $newStatus;
+    }
+
+    public function getActivePlanOptions(): Collection
+    {
+        return $this->planModel->where('status', 'active')->select('id', 'name','duration_value','duration_unit','price')->orderBy('name')->get();
     }
 }
