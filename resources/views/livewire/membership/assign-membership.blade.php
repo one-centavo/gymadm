@@ -39,8 +39,7 @@
             <option value="" disabled>Seleccionar plan</option>
             @forelse($planOptions as $plan)
                 <option value="{{ $plan['id'] }}">
-                    {{ $plan['name'] }}
-                    ( <span class="text-xs text-slate-500 font-normal">${{ number_format($plan['price'], 0, ',', '.') }}</span> )
+                    {{ $plan['name'] }} ( ${{ number_format($plan['price'], 0, ',', '.') }} )
                 </option>
             @empty
                 <option value="" disabled>No hay planes activos</option>
