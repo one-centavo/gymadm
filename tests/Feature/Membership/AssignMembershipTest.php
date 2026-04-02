@@ -63,8 +63,8 @@ class AssignMembershipTest extends TestCase
     public function test_validation_errors_are_shown_when_required_fields_are_missing()
     {
         Livewire::test(AssignMembership::class)
-            ->set('userId', null)
-            ->set('planId', null)
+            ->set('userId', 0)
+            ->set('planId', 0)
             ->set('paymentMethod', '')
             ->set('startDate', '')
             ->call('assign')
