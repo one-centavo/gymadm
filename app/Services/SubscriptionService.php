@@ -31,6 +31,10 @@ class SubscriptionService
         $startDate = Carbon::instance($data->startDate)->startOfDay();
         $endDate = $this->calculateEndDate($data->startDate, $plan->duration_value, $plan->duration_unit);
 
+        if($member->status === 'inactive' || $member->status === 'pending'){
+            $member->status = 'active';
+            $member->save();
+        }
         return $this->membershipModel->create([
             'user_id' => $member->id,
             'membership_plan_id' => $plan->id,
