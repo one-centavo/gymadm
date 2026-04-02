@@ -120,10 +120,11 @@ class MemberService
         return $newStatus;
     }
 
-    public function searchMembers($term) : Collection
+    public function searchMembers(string $term) : Collection
     {
-        if (empty($term)) return collect();
+        $term = trim($term);
 
+        if ($term === '') return collect();
         return User::query()
             ->select('id', 'document_number', 'first_name', 'last_name')
             ->where('role', 'member')
