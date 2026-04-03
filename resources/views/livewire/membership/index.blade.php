@@ -16,4 +16,5 @@
     </section>
 
     <livewire:membership.assign-membership/>
+    <livewire:membership.memberships-list/>
 </section>
