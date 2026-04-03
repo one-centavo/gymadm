@@ -115,7 +115,6 @@ class SubscriptionService
                 'u.document_number',
                 'u.first_name',
                 'u.last_name',
-                'u.second_lastname',
                 'm.id as membership_id',
                 'm.end_date',
                 'm.status as membership_status',
@@ -124,7 +123,7 @@ class SubscriptionService
                 DB::raw('DATEDIFF(m.end_date, NOW()) as dias_restantes')
             )
             ->join('memberships as m', 'u.id', '=', 'm.user_id')
-            ->join('membership_plans as p', 'm.plan_id', '=', 'p.id')
+            ->join('membership_plans as p', 'm.membership_plan_id', '=', 'p.id')
             ->whereRaw('m.id = (SELECT MAX(id) FROM memberships WHERE user_id = u.id)')
             ->when($search, function ($query, $s) {
                 $query->where(function ($q) use ($s) {
