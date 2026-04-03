@@ -25,6 +25,9 @@ class SubscriptionService
         $this->userModel = $userModel;
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function assignMembership(AssignMembershipData $data): Membership
     {
         $member = $this->userModel->where('role','member')->findOrFail($data->userId);
@@ -32,7 +35,7 @@ class SubscriptionService
         $startDate = Carbon::instance($data->startDate)->startOfDay();
 
         return DB::transaction(function () use ($member, $plan, $startDate, $data) {
-            $endDate = $this->calculateEndDate($data->startDate, $plan->duration_value, $plan->duration_unit);
+            $endDate = $this->calculateEndDate($startDate, $plan->duration_value, $plan->duration_unit);
 
             $membership = $this->membershipModel->create([
                 'user_id' => $member->id,
@@ -69,6 +72,38 @@ class SubscriptionService
                 "Unsupported duration unit: $durationUnit"
             ),
         };
+    }
+
+    /**
+     * Sugiere la fecha de inicio y calcula la fecha de vencimiento para la asignación de membresía.
+     * Si el usuario tiene una membresía vigente, la fecha sugerida es el día siguiente al fin de la membresía.
+     * Si no, la fecha sugerida es hoy.
+     * Retorna un array con 'start_date' y 'end_date' (ambos Carbon).
+     */
+    public function getSuggestedMembershipDates(int $userId, int $planId): array
+    {
+        $today = Carbon::today();
+        $activeMembership = $this->membershipModel
+            ->where('user_id', $userId)
+            ->where('status', 'active')
+            ->whereDate('end_date', '>=', $today)
+            ->orderByDesc('end_date')
+            ->first();
+
+        $plan = $this->membershipPlanModel->where('status', 'active')->findOrFail($planId);
+
+        if ($activeMembership) {
+            $startDate = Carbon::parse($activeMembership->end_date)->addDay()->startOfDay();
+        } else {
+            $startDate = $today->copy()->startOfDay();
+        }
+
+        $endDate = $this->calculateEndDate($startDate, $plan->duration_value, $plan->duration_unit);
+
+        return [
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+        ];
     }
 
 }
