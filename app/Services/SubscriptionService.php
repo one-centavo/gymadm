@@ -35,7 +35,7 @@ class SubscriptionService
         $startDate = Carbon::instance($data->startDate)->startOfDay();
 
         return DB::transaction(function () use ($member, $plan, $startDate, $data) {
-            $endDate = $this->calculateEndDate($data->startDate, $plan->duration_value, $plan->duration_unit);
+            $endDate = $this->calculateEndDate($startDate, $plan->duration_value, $plan->duration_unit);
 
             $membership = $this->membershipModel->create([
                 'user_id' => $member->id,
