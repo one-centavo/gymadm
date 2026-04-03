@@ -24,10 +24,10 @@
             </ul>
         @endif
         {{-- Miembro seleccionado --}}
-        @if($userId && isset($members[0]))
+        @if($userId && $selectedMemberName)
             <div class="mt-1 text-xs text-slate-600 italic">
-                Miembro seleccionado: <span class="font-bold">{{ ($members[0]['first_name'] ?? '') . ' ' . ($members[0]['last_name'] ?? '') }}</span>
-                <span class="ml-2">({{ $members[0]['document_number'] ?? '' }})</span>
+                Miembro seleccionado: <span class="font-bold">{{ $selectedMemberName }}</span>
+                <span class="ml-2">({{ $selectedMemberDocument }})</span>
             </div>
         @endif
     </div>

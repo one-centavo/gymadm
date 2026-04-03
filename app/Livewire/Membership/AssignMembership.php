@@ -27,6 +27,8 @@ class AssignMembership extends Component
 	public float $pricePaid = 0.0;
 	// Opcional: Si se requiere mostrar la fecha de finalización en el formulario
 	public string $endDate = '';
+	public ?string $selectedMemberName = null;
+	public ?string $selectedMemberDocument = null;
 
     public function updatedSearchTerm(MemberService $memberService): void
     {
@@ -41,7 +43,10 @@ class AssignMembership extends Component
 
     public function selectMember(int $id): void
     {
+        $member = collect($this->members)->firstWhere('id', $id);
         $this->userId = $id;
+        $this->selectedMemberName = ($member['first_name'] ?? '') . ' ' . ($member['last_name'] ?? '');
+        $this->selectedMemberDocument = $member['document_number'] ?? '';
         $this->members = [];
         $this->searchTerm = '';
     }
