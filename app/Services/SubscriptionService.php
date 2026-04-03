@@ -109,6 +109,11 @@ class SubscriptionService
 
     public function getPlanList(string $search = '', string $statusFilter = 'all'): LengthAwarePaginator
     {
+        $driver = DB::connection()->getDriverName();
+        $diasExpr = $driver === 'sqlite'
+            ? "CAST(julianday(m.end_date) - julianday('now') AS INTEGER)"
+            : 'DATEDIFF(m.end_date, NOW())';
+
         return $this->userModel->from('users as u')
             ->select(
                 'u.id as user_id',
@@ -120,7 +125,7 @@ class SubscriptionService
                 'm.status as membership_status',
                 'p.id as membership_plan_id',
                 'p.name as plan_name',
-                DB::raw('DATEDIFF(m.end_date, NOW()) as dias_restantes')
+                DB::raw("({$diasExpr}) as dias_restantes")
             )
             ->join('memberships as m', 'u.id', '=', 'm.user_id')
             ->join('membership_plans as p', 'm.membership_plan_id', '=', 'p.id')
@@ -132,13 +137,13 @@ class SubscriptionService
                         ->orWhere('u.document_number', 'LIKE', "%{$s}%");
                 });
             })
-            ->when($statusFilter !== 'all', function ($query) use ($statusFilter) {
+            ->when($statusFilter !== 'all', function ($query) use ($statusFilter, $diasExpr) {
                 match ($statusFilter) {
                     'vigente' => $query->where('m.status', 'active')
-                        ->whereRaw('DATEDIFF(m.end_date, NOW()) > 3'),
+                        ->whereRaw("{$diasExpr} > 3"),
                     'por_vencer' => $query->where('m.status', 'active')
-                        ->whereBetween(DB::raw('DATEDIFF(m.end_date, NOW())'), [0, 3]),
-                    'vencido' => $query->whereBetween(DB::raw('DATEDIFF(m.end_date, NOW())'), [-15, -1]),
+                        ->whereBetween(DB::raw($diasExpr), [0, 3]),
+                    'vencido' => $query->whereBetween(DB::raw($diasExpr), [-15, -1]),
                     'cancelado' => $query->where('m.status', 'canceled'),
                     default => $query
                 };
