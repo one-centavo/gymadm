@@ -16,6 +16,7 @@ class MembershipsList extends Component
 
     protected $listeners = [
         'membership.assigned' => '$refresh',
+        'membership.renewed' => '$refresh',
     ];
 
     public function render(SubscriptionService $subscriptionService) : View

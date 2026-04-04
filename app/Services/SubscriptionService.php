@@ -11,7 +11,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 use DateTimeInterface;
-
+use Throwable;
 class SubscriptionService
 {
     protected MembershipPlan $membershipPlanModel;
@@ -27,7 +27,7 @@ class SubscriptionService
     }
 
     /**
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function assignMembership(AssignMembershipData $data): Membership
     {
@@ -125,22 +125,22 @@ class SubscriptionService
                 'm.status as membership_status',
                 'p.id as membership_plan_id',
                 'p.name as plan_name',
-                DB::raw("({$diasExpr}) as dias_restantes")
+                DB::raw("($diasExpr) as dias_restantes")
             )
             ->join('memberships as m', 'u.id', '=', 'm.user_id')
             ->join('membership_plans as p', 'm.membership_plan_id', '=', 'p.id')
             ->whereRaw('m.id = (SELECT MAX(id) FROM memberships WHERE user_id = u.id)')
             ->when($search, function ($query, $s) {
                 $query->where(function ($q) use ($s) {
-                    $q->where('u.first_name', 'LIKE', "%{$s}%")
-                        ->orWhere('u.last_name', 'LIKE', "%{$s}%")
-                        ->orWhere('u.document_number', 'LIKE', "%{$s}%");
+                    $q->where('u.first_name', 'LIKE', "%$s%")
+                        ->orWhere('u.last_name', 'LIKE', "%$s%")
+                        ->orWhere('u.document_number', 'LIKE', "%$s%");
                 });
             })
             ->when($statusFilter !== 'all', function ($query) use ($statusFilter, $diasExpr) {
                 match ($statusFilter) {
                     'vigente' => $query->where('m.status', 'active')
-                        ->whereRaw("{$diasExpr} > 3"),
+                        ->whereRaw("$diasExpr > 3"),
                     'por_vencer' => $query->where('m.status', 'active')
                         ->whereBetween(DB::raw($diasExpr), [0, 3]),
                     'vencido' => $query->whereBetween(DB::raw($diasExpr), [-15, -1]),
@@ -150,6 +150,40 @@ class SubscriptionService
             })
             ->orderBy('dias_restantes')
             ->paginate(10);
+    }
+
+    /**
+     * Busca la última membresía y prepara el objeto de datos para asignar una nueva.
+     */
+    public function getLatestMembership(int $userId): ?Membership
+    {
+        return $this->membershipModel
+            ->where('user_id', $userId)
+            ->orderByDesc('end_date')
+            ->first();
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function renewMembership(int $userId, string $paymentMethod): Membership
+    {
+        $latest = $this->getLatestMembership($userId);
+
+        if (!$latest) {
+            throw new InvalidArgumentException("El usuario no tiene una membresía previa para renovar.");
+        }
+
+        $dates = $this->getSuggestedMembershipDates($userId, $latest->membership_plan_id);
+
+        $data = new AssignMembershipData(
+            $userId,
+            $latest->membership_plan_id,
+            $paymentMethod,
+            $dates['start_date']
+        );
+
+        return $this->assignMembership($data);
     }
 
 
