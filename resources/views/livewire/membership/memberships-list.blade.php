@@ -101,8 +101,10 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center space-x-2">
-                                <button title="Ver Detalles" class="p-1 border-2 border-black hover:bg-gym-blue transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 active:shadow-none">
-                                    <x-heroicon-o-eye class="h-4 w-4"/>
+                                <button
+                                    wire:click="$dispatch('renew-membership-form', { userId: {{ $membership->user_id }} })"
+                                    title="Renovar Membresía" class="p-1 border-2 border-black hover:bg-gym-blue transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-0.5 active:shadow-none">
+                                    <x-heroicon-o-arrow-path class="h-4 w-4"/>
                                 </button>
                                 <button
                                     title="Editar"
