@@ -186,5 +186,15 @@ class SubscriptionService
         return $this->assignMembership($data);
     }
 
+    public function cancelMembership(int $membershipId,string $cancelledReason) : void
+    {
+        $this->membershipModel->where('id', $membershipId)
+            ->update([
+                'status' => 'canceled',
+                'cancellation_reason' => $cancelledReason,
+                'cancelled_at' => Carbon::now(),
+            ]);
+    }
+
 
 }

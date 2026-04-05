@@ -114,11 +114,11 @@
                                     <x-heroicon-o-pencil class="h-4 w-4"/>
                                 </button>
                                 <button
-                                    title="Cambiar Estado"
+                                    title="Cancelar Membresía"
                                     type="button"
-                                    wire:click="$dispatch('open-membership-status-modal', { id: {{ $membership->membership_id }} })"
-                                    class="p-1 border-2 border-black {{ $membership->membership_status === 'active' ? 'bg-red-400' : 'bg-green-400' }} shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                                    <x-heroicon-o-power class="h-4 w-4"/>
+                                    wire:click="$dispatch('open-cancel-modal', { id: {{ $membership->membership_id }} })"
+                                    class="p-1 border-2 border-black {{ $membership->membership_status === 'active' ? 'bg-red-400' : 'bg-green-400' }} shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
+                                    <x-heroicon-o-x-circle class="h-4 w-4"/>
                                 </button>
                             </td>
                         </tr>
