@@ -186,9 +186,9 @@ class SubscriptionService
         return $this->assignMembership($data);
     }
 
-    public function cancelMembership(int $userId,string $cancelledReason) : void
+    public function cancelMembership(int $membershipId,string $cancelledReason) : void
     {
-        $this->membershipModel->where('user_id', $userId)
+        $this->membershipModel->where('id', $membershipId)
             ->update([
                 'status' => 'canceled',
                 'cancellation_reason' => $cancelledReason,
