@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Plans;
+namespace App\Livewire\Admin\Plans;
 
 use App\Http\Requests\Plan\EditMembershipPlanRequest;
 use App\Services\PlanService;
@@ -26,7 +26,7 @@ class UpdatePlanInfo extends Component
         $this->planService = $planService;
     }
 
-    #[On('open-edit-plan')]
+    #[On('open-edit-plans')]
     public function loadPlanData(int $id): void
     {
         $plan = $this->planService->getPlanInfoById($id);
@@ -56,17 +56,17 @@ class UpdatePlanInfo extends Component
             );
 
             $this->planService->updatePlan($this->planId, $validatedData);
-            $this->dispatch('plan.updated');
+            $this->dispatch('plans.updated');
             $this->open = false;
 
         }catch (QueryException $e){
-            Log::error('Error actualizando plan de membresía', [
+            Log::error('Error actualizando plans de membresía', [
                 'plan_id' => $this->planId,
                 'name' => $this->name,
                 'error' => $e->getMessage(),
                 'code' => $e->getCode(),
             ]);
-            $this->addError('update', 'Error al actualizar el plan');
+            $this->addError('update', 'Error al actualizar el plans');
         }
 
 

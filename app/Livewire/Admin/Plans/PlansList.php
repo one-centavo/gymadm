@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Plans;
+namespace App\Livewire\Admin\Plans;
 
 use App\Services\PlanService;
 use Illuminate\View\View;
@@ -15,8 +15,8 @@ class PlansList extends Component
     public string $statusFilter = 'all';
 
     protected $listeners = [
-        'plan.created' => '$refresh',
-        'plan.updated' => '$refresh',
+        'plans.created' => '$refresh',
+        'plans.updated' => '$refresh',
     ];
 
     public function render(PlanService $planService): View
@@ -24,7 +24,7 @@ class PlansList extends Component
         $stats = $planService->getPlanStats();
         $plans = $planService->getPlanList($this->search, $this->statusFilter);
 
-        return view('livewire.plan.plans-list', [
+        return view('livewire.admin.plans.plans-list', [
             'plans' => $plans,
             'stats' => $stats,
         ]);

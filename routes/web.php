@@ -3,7 +3,7 @@
 use App\Livewire\Auth\{LoginForm, RegisterForm, RecoveryForm};
 use App\Livewire\Dashboard\Index as DashboardIndex;
 use App\Livewire\Member\Index as MembersIndex;
-use App\Livewire\Plan\Index as MembershipPlansIndex;
+use App\Livewire\Admin\Plans\Index as MembershipPlansIndex;
 use App\Livewire\Membership\Index as MembershipsIndex;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;

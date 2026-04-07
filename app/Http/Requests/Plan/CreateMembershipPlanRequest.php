@@ -51,8 +51,8 @@ class CreateMembershipPlanRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'name' => 'nombre del plan',
-            'description' => 'descripción del plan',
+            'name' => 'nombre del plans',
+            'description' => 'descripción del plans',
             'price' => 'precio',
             'duration_value' => 'duración',
             'duration_unit' => 'unidad de duración',
