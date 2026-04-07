@@ -27,11 +27,11 @@ class MembershipFactory extends Factory
 
             // 3. Lógica de fechas usando Carbon
             'start_date' => now(),
-            'end_date' => now()->addMonths($plan->duration_value), // Se calcula según el plan
+            'end_date' => now()->addMonths($plan->duration_value), // Se calcula según el plans
 
             'status' => 'active',
             'payment_method' => fake()->randomElement(['cash', 'transfer', 'card']),
-            'price_paid' => $plan->price, // El precio pagado coincide con el del plan
+            'price_paid' => $plan->price, // El precio pagado coincide con el del plans
             'cancellation_reason' => null,
             'cancelled_at' => null,
         ];

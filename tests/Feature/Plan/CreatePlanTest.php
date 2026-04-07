@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Plan;
 
-use App\Livewire\Plan\CreatePlan;
+use App\Livewire\Admin\Plans\CreatePlan;
 use App\Models\MembershipPlan;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
@@ -29,7 +29,7 @@ class CreatePlanTest extends TestCase
             ->set('duration_unit', 'months')
             ->call('create')
             ->assertHasNoErrors()
-            ->assertDispatched('plan.created');
+            ->assertDispatched('plans.created');
 
         $this->assertDatabaseHas('membership_plans', [
             'name' => 'Plan Guerrero',
