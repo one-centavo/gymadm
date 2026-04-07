@@ -51,7 +51,7 @@ class AssignMembershipRequest extends FormRequest
     {
         return [
             'userId' => 'miembro',
-            'planId' => 'plan de membresía',
+            'planId' => 'plans de membresía',
             'startDate' => 'fecha de inicio',
             'paymentMethod' => 'método de pago',
         ];

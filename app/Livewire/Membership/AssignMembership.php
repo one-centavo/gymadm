@@ -63,7 +63,7 @@ class AssignMembership extends Component
 
     /**
      * Actualiza la fecha de inicio sugerida y la fecha de vencimiento calculada
-     * según el usuario y plan seleccionados.
+     * según el usuario y plans seleccionados.
      * La fecha de inicio es editable, la de fin solo indicador.
      */
     public function updateSuggestedDates(SubscriptionService $subscriptionService): void
@@ -88,7 +88,7 @@ class AssignMembership extends Component
             }
 
             $this->endDate = $effectiveStartDate->copy()->addDays($durationInDays)->toDateString();
-            // Asignar el precio del plan seleccionado
+            // Asignar el precio del plans seleccionado
             $plan = collect($this->planOptions)->firstWhere('id', $this->planId);
             $this->pricePaid = $plan['price'] ?? 0.0;
         } else {

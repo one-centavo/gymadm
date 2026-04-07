@@ -32,7 +32,7 @@
         @endif
     </div>
 
-    {{-- Selector de plan --}}
+    {{-- Selector de plans --}}
     <div class="flex flex-col mt-4">
         <label class="font-black uppercase text-xs tracking-widest">Plan</label>
         <select wire:model="planId" wire:change="updateSuggestedDates" class="border-4 border-black p-3 font-bold bg-white focus:bg-gym-blue/10 outline-none">

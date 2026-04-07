@@ -101,7 +101,7 @@ class RenewMembership extends Component
             'paymentMethod' => 'required|string',
         ], [], [
             'userId' => 'miembro',
-            'planId' => 'plan',
+            'planId' => 'plans',
             'startDate' => 'fecha de inicio',
             'paymentMethod' => 'método de pago',
         ]);
