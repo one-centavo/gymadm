@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Plan;
+namespace App\Livewire\Plans;
 
 use App\Services\PlanService;
 use Illuminate\View\View;

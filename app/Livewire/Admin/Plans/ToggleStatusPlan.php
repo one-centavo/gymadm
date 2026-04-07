@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Plan;
+namespace App\Livewire\Plans;
 
 use App\Services\PlanService;
 use Livewire\Attributes\On;

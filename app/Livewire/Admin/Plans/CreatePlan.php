@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Plan;
+namespace App\Livewire\Plans;
 
 use App\Http\Requests\Plan\CreateMembershipPlanRequest;
 use App\Services\PlanService;
