@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Livewire\Membership;
+namespace App\Livewire\Admin\Memberships;
 
 use Illuminate\View\View;
-use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Component;
 
 #[Layout('components.layouts.app')]
 class Index extends Component
