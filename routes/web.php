@@ -1,6 +1,7 @@
 <?php
 
-use App\Livewire\Admin\Dashboard\Index as DashboardIndex;
+use App\Livewire\Admin\Dashboard\Index as AdminDashboard;
+use App\Livewire\Member\Dashboard\Index as MemberDashboard;
 use App\Livewire\Admin\Members\Index as MembersIndex;
 use App\Livewire\Admin\Memberships\Index as MembershipsIndex;
 use App\Livewire\Admin\Plans\Index as MembershipPlansIndex;
@@ -20,7 +21,11 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/dashboard', DashboardIndex::class)->name('dashboard');
+    Route::get('/dashboard', function () {
+        return auth()->user()->role === 'admin'
+            ? redirect()->route('admin.dashboard')
+            : redirect()->route('member.dashboard');
+    })->name('dashboard');
 
     Route::post('/logout', function (Request $request) {
         auth()->logout();
@@ -30,6 +35,7 @@ Route::middleware('auth')->group(function () {
     })->name('logout');
 
     Route::middleware('role:admin')->prefix('admin')->group(function () {
+        Route::get('/dashboard', AdminDashboard::class)->name('admin.dashboard');
         Route::get('/miembros', MembersIndex::class)->name('members.index');
         Route::get('/membresias', MembershipsIndex::class)->name('memberships.index');
         Route::get('/planes', MembershipPlansIndex::class)->name('plans.index');
@@ -41,6 +47,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware('role:member')->prefix('user')->group(function () {
+        Route::get('/dashboard', MemberDashboard::class)->name('member.dashboard');
         Route::get('/historial', function () {
             return view('history.index');
         })->name('history.index');
