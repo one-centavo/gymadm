@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
         })->name('memberships.manage');
     });
 
-    Route::middleware('role:members')->prefix('user')->group(function () {
+    Route::middleware('role:member')->prefix('user')->group(function () {
         Route::get('/historial', function () {
             return view('history.index');
         })->name('history.index');
