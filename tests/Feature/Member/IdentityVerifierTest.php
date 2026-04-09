@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Member;
 
-use App\Livewire\Member\IdentityVerifier;
+use App\Livewire\Admin\Members\IdentityVerifier;
 use App\Models\User;
 use App\Services\MemberService;
 use Illuminate\Foundation\Testing\RefreshDatabase;

@@ -1,14 +1,14 @@
 <?php
 namespace Tests\Feature\Member;
 
-use App\Models\User;
+use App\Livewire\Admin\Members\MembersList;
 use App\Models\Membership;
+use App\Models\User;
 use App\Services\MemberService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
-use App\Livewire\Member\MembersList;
-use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
 
 class MembersListTest extends TestCase
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Livewire\Member;
+namespace App\Livewire\Admin\Members;
 
-use Livewire\Component;
 use App\Services\MemberService;
 use Illuminate\View\View;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class MembersList extends Component
@@ -21,7 +21,7 @@ class MembersList extends Component
     {
         $stats = $memberService->getMembersStats();
         $members = $memberService->getPaginatedList($this->search, $this->statusFilter);
-        return view('livewire.member.members-list', [
+        return view('livewire.admin.members.members-list', [
             'stats' => $stats,
             'members' => $members
         ]);

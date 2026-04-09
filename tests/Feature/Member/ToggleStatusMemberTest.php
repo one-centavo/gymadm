@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\Member;
 
-use App\Livewire\Member\ToggleStatusMember;
+use App\Livewire\Admin\Members\ToggleStatusMember;
 use App\Models\User;
-use Livewire\Livewire;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
 
 class ToggleStatusMemberTest extends TestCase
 {

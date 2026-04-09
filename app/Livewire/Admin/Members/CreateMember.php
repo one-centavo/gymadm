@@ -72,6 +72,6 @@ class CreateMember extends Component
 
     public function render()
     {
-        return view('livewire.member.create-member');
+        return view('livewire.admin.members.create-member');
     }
 }

@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Livewire\Member;
+namespace App\Livewire\Admin\Members;
 
-use Livewire\Component;
-use Livewire\Attributes\On;
 use App\Services\MemberService;
+use Livewire\Attributes\On;
+use Livewire\Component;
+
 class ToggleStatusMember extends Component // <-- Corregida la "O" mayúscula
 {
     public bool $confirmingStatusChange = false;
