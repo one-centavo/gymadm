@@ -10,6 +10,7 @@ use App\Services\SubscriptionService;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 use Livewire\Component;
 use Throwable;
 
@@ -136,7 +137,7 @@ class RenewMembership extends Component
         }
     }
 
-    public function render()
+    public function render() : View
     {
         return view('livewire.membership.renew-membership');
     }

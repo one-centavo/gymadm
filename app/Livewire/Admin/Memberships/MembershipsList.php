@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Membership;
+namespace App\Livewire\Admin\Memberships;
 
 use App\Services\SubscriptionService;
 use Illuminate\View\View;

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Membership;
 
-use App\Livewire\Membership\RenewMembership;
-use App\Models\User;
-use App\Models\MembershipPlan;
+use App\Livewire\Admin\Memberships\RenewMembership;
 use App\Models\Membership;
+use App\Models\MembershipPlan;
+use App\Models\User;
 use App\Services\SubscriptionService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;

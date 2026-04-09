@@ -1,12 +1,12 @@
 <?php
 
-use App\Livewire\Auth\{LoginForm, RegisterForm, RecoveryForm};
+use App\Livewire\Admin\Memberships\Index as MembershipsIndex;
+use App\Livewire\Admin\Plans\Index as MembershipPlansIndex;
+use App\Livewire\Auth\{LoginForm, RecoveryForm, RegisterForm};
 use App\Livewire\Dashboard\Index as DashboardIndex;
 use App\Livewire\Member\Index as MembersIndex;
-use App\Livewire\Admin\Plans\Index as MembershipPlansIndex;
-use App\Livewire\Membership\Index as MembershipsIndex;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return auth()->check() ? redirect()->route('dashboard') : redirect()->route('login');

@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Membership;
 
-use App\Livewire\Membership\MembershipsList;
-use App\Models\User;
+use App\Livewire\Admin\Memberships\MembershipsList;
 use App\Models\Membership;
 use App\Models\MembershipPlan;
+use App\Models\User;
 use App\Services\SubscriptionService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
-use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
 
 class MembershipsListTest extends TestCase
 {

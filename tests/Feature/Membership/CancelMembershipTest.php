@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Membership;
 
-use App\Livewire\Membership\CancelMembership;
+use App\Livewire\Admin\Memberships\CancelMembership;
 use App\Models\Membership;
 use App\Models\User;
 use App\Services\SubscriptionService;
