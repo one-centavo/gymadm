@@ -1,10 +1,10 @@
 <?php
 
+use App\Livewire\Admin\Dashboard\Index as DashboardIndex;
 use App\Livewire\Admin\Members\Index as MembersIndex;
 use App\Livewire\Admin\Memberships\Index as MembershipsIndex;
 use App\Livewire\Admin\Plans\Index as MembershipPlansIndex;
 use App\Livewire\Auth\{LoginForm, RecoveryForm, RegisterForm};
-use App\Livewire\Dashboard\Index as DashboardIndex;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
