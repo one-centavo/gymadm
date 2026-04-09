@@ -17,7 +17,7 @@
         </x-nav-link>
 
     @else
-        <x-nav-link :active="request()->routeIs('dashboard')" icon="home" href="{{ route('dashboard') }}">
+        <x-nav-link :active="request()->routeIs('member.dashboard')" icon="home" href="{{ route('member.dashboard') }}">
             Inicio
         </x-nav-link>
 
