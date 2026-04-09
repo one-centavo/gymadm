@@ -12,6 +12,6 @@ class Index extends Component
 
     public function render() : View
     {
-        return view('livewire.membership.index');
+        return view('livewire.admin.memberships.index');
     }
 }

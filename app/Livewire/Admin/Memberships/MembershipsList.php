@@ -23,7 +23,7 @@ class MembershipsList extends Component
     {
         $memberships = $subscriptionService->getPlanList($this->search, $this->statusFilter);
 
-        return view('livewire.membership.memberships-list', [
+        return view('livewire.admin.memberships.memberships-list', [
             'memberships' => $memberships,
         ]);
     }

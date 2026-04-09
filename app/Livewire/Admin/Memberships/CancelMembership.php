@@ -48,6 +48,6 @@ $this->closeModal();
 
 public function render(): View
 {
-return view('livewire.membership.cancel-membership');
+return view('livewire.admin.memberships.cancel-membership');
 }
 }

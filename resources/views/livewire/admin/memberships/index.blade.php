@@ -15,8 +15,8 @@
         </button>
     </section>
 
-    <livewire:membership.assign-membership/>
-    <livewire:membership.memberships-list/>
-    <livewire:membership.renew-membership/>
-    <livewire:membership.cancel-membership/>
+    <livewire:admin.memberships.assign-membership/>
+    <livewire:admin.memberships.memberships-list/>
+    <livewire:admin.memberships.renew-membership/>
+    <livewire:admin.memberships.cancel-membership/>
 </section>
