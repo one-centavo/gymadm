@@ -5,7 +5,7 @@
                 <span class="w-2 h-2 bg-black"></span>
                 Gestión Rápida
             </h2>
-            <livewire:member.identity-verifier/>
+            <livewire:admin.members.identity-verifier/>
         </section>
 
         <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
