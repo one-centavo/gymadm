@@ -17,8 +17,10 @@ Sistema de automatización administrativa de gimnasios, enfada en la gestión de
     ```
 
 2. **Configurar variables de entorno**
+
    > [!IMPORTANT]
-   > Asegúrate de revisar los puertos en el archivo `.env` o `docker-compose.yml`. Si el puerto 80 o 3306 están ocupados por servicios como XAMPP, cámbialos antes de continuar.
+   > Asegúrate de revisar los puertos en el archivo `.env` o `docker-compose.yml`. Si el puerto 8080 o 3306 están ocupados por servicios como XAMPP, cámbialos antes de continuar.
+
     ```bash
     cp .env.example .env
     ```
@@ -44,11 +46,5 @@ Sistema de automatización administrativa de gimnasios, enfada en la gestión de
 
 ## Acceso al Sistema
 
-* **Aplicación:** [http://localhost:8080](http://localhost:8080) (O el puerto configurado en el .env).
+* **Aplicación:** [http://localhost:8080](http://localhost:8080) (O el puerto configurado en él .env).
 * **Servidor de Correos (Mailpit):** [http://localhost:8025](http://localhost:8025).
-
-## Tareas Programadas (Automatización)
-
-Para probar el sistema de notificaciones y verificación de vencimientos de forma manual:
-```bash
-docker compose exec app php artisan schedule:run
