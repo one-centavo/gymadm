@@ -1,10 +1,12 @@
 <?php
-namespace App\Livewire\Membership;
+namespace App\Livewire\Admin\Memberships;
 
 use App\Services\SubscriptionService;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\Attributes\On; // Importante para los eventos
+
+// Importante para los eventos
 
 class CancelMembership extends Component
 {
@@ -46,6 +48,6 @@ $this->closeModal();
 
 public function render(): View
 {
-return view('livewire.membership.cancel-membership');
+return view('livewire.admin.memberships.cancel-membership');
 }
 }

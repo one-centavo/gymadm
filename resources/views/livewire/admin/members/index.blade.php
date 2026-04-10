@@ -7,9 +7,8 @@
     </header>
 
 
-    <livewire:member.members-list />
-
-    <livewire:member.create-member/>
-    <livewire:member.update-member-info/>
-    <livewire:member.toggle-status-member/>
+    <livewire:admin.members.members-list/>
+    <livewire:admin.members.create-member/>
+    <livewire:admin.members.update-member-info/>
+    <livewire:admin.members.toggle-status-member/>
 </section>

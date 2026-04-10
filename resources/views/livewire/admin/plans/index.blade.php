@@ -14,8 +14,8 @@
         </button>
 
     </section>
-    <livewire:plan.plans-list/>
-    <livewire:plan.create-plan/>
-    <livewire:plan.update-plan-info/>
-    <livewire:plan.toggle-status-plan/>
+    <livewire:admin.plans.plans-list/>
+    <livewire:admin.plans.create-plan/>
+    <livewire:admin.plans.update-plan-info/>
+    <livewire:admin.plans.toggle-status-plan/>
 </section>

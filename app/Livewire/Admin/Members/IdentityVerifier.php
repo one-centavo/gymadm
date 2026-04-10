@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Member;
+namespace App\Livewire\Admin\Members;
 
 use App\Services\MemberService;
 use Livewire\Component;

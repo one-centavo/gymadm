@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Plan;
 
-use App\Livewire\Plan\PlansList;
+use App\Livewire\Admin\Plans\PlansList;
 use App\Models\MembershipPlan;
 use App\Services\PlanService;
 use Illuminate\Foundation\Testing\RefreshDatabase;

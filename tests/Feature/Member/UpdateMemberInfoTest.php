@@ -1,12 +1,12 @@
 <?php
 namespace Tests\Feature\Member;
 
-use App\Livewire\Member\UpdateMemberInfo;
+use App\Livewire\Admin\Members\UpdateMemberInfo;
 use App\Models\User;
-use Livewire\Livewire;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
 
 class UpdateMemberInfoTest extends TestCase
 {

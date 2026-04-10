@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Membership;
+namespace App\Livewire\Admin\Memberships;
 
 use App\Services\SubscriptionService;
 use Illuminate\View\View;
@@ -23,7 +23,7 @@ class MembershipsList extends Component
     {
         $memberships = $subscriptionService->getPlanList($this->search, $this->statusFilter);
 
-        return view('livewire.membership.memberships-list', [
+        return view('livewire.admin.memberships.memberships-list', [
             'memberships' => $memberships,
         ]);
     }

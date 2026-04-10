@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Plan;
+namespace App\Livewire\Admin\Plans;
 
 use App\Services\PlanService;
 use Livewire\Attributes\On;
@@ -16,7 +16,7 @@ class ToggleStatusPlan extends Component
     public string $currentStatus = '';
     public string $targetStatus = '';
 
-    #[On('open-plan-status-modal')]
+    #[On('open-plans-status-modal')]
     public function confirmStatusChange(int $id, PlanService $planService): void
     {
         $plan = $planService->getPlanInfoById($id);
@@ -39,6 +39,6 @@ class ToggleStatusPlan extends Component
         $planService->toggleStatus($this->selectedPlanId);
 
         $this->confirmingStatusChange = false;
-        $this->dispatch('plan.updated');
+        $this->dispatch('plans.updated');
     }
 }

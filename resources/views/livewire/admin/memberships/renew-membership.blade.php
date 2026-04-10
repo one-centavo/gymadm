@@ -14,7 +14,7 @@
             <span class="text-xs text-slate-600 italic mt-1">Documento: <span class="font-bold">{{ $selectedMemberDocument }}</span></span>
         </div>
 
-        {{-- Selector de plan (editable) --}}
+        {{-- Selector de plans (editable) --}}
         <div class="flex flex-col mt-4">
             <label class="font-black uppercase text-xs tracking-widest">Plan</label>
             <select wire:model.live="planId" class="border-4 border-black p-3 font-bold bg-white focus:bg-gym-blue/10 outline-none">

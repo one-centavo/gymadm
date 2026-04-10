@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Member;
+namespace App\Livewire\Admin\Plans;
 
 use Illuminate\View\View;
 use Livewire\Component;
@@ -12,6 +12,6 @@ class Index extends Component
 
     public function render() : View
     {
-        return view('livewire.member.index');
+        return view('livewire.admin.plans.index');
     }
 }

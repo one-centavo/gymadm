@@ -2,18 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Membership;
+namespace App\Livewire\Admin\Memberships;
 
-use App\Services\SubscriptionService;
-use App\Services\PlanService;
-use App\Models\User;
-use App\Models\Membership;
 use App\Data\AssignMembershipData;
-use Livewire\Component;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Database\QueryException;
-use Throwable;
+use App\Services\PlanService;
+use App\Services\SubscriptionService;
 use Carbon\Carbon;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
+use Livewire\Component;
+use Throwable;
 
 class RenewMembership extends Component
 {
@@ -101,7 +100,7 @@ class RenewMembership extends Component
             'paymentMethod' => 'required|string',
         ], [], [
             'userId' => 'miembro',
-            'planId' => 'plan',
+            'planId' => 'plans',
             'startDate' => 'fecha de inicio',
             'paymentMethod' => 'método de pago',
         ]);
@@ -138,7 +137,7 @@ class RenewMembership extends Component
         }
     }
 
-    public function render()
+    public function render() : View
     {
         return view('livewire.membership.renew-membership');
     }

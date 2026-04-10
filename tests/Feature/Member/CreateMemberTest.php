@@ -2,8 +2,7 @@
 
 namespace Tests\Feature\Member;
 
-use App\Livewire\Member\CreateMember;
-use App\Models\User;
+use App\Livewire\Admin\Members\CreateMember;
 use App\Services\OtpService;
 use App\Services\RegistrationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;

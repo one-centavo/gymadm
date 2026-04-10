@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Member;
+namespace App\Livewire\Admin\Members;
 
 use App\Http\Requests\User\RegisterRequest;
 use App\Services\MemberService;
@@ -72,6 +72,6 @@ class CreateMember extends Component
 
     public function render()
     {
-        return view('livewire.member.create-member');
+        return view('livewire.admin.members.create-member');
     }
 }

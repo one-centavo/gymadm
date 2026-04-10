@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Plan;
+namespace App\Livewire\Admin\Plans;
 
 use App\Http\Requests\Plan\CreateMembershipPlanRequest;
 use App\Services\PlanService;
@@ -29,17 +29,17 @@ class CreatePlan extends Component
             $planService->createPlan($validatedData);
 
             session()->flash('message', 'Plan creado exitosamente.');
-            $this->dispatch('plan.created');
+            $this->dispatch('plans.created');
 
             $this->resetExcept('open');
             $this->open = false;
         }catch (QueryException $e){
-            Log::error('Error creando plan de membresía', [
+            Log::error('Error creando plans de membresía', [
                 'name' => $this->name,
                 'error' => $e->getMessage(),
                 'code' => $e->getCode(),
             ]);
-            $this->addError('create', 'Error al registrar el plan');
+            $this->addError('create', 'Error al registrar el plans');
         }
     }
 }
