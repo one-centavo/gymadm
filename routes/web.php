@@ -5,6 +5,7 @@ use App\Livewire\Member\Dashboard\Index as MemberDashboard;
 use App\Livewire\Admin\Members\Index as MembersIndex;
 use App\Livewire\Admin\Memberships\Index as MembershipsIndex;
 use App\Livewire\Admin\Plans\Index as MembershipPlansIndex;
+use App\Livewire\Admin\History\Index as HistoryIndex;
 use App\Livewire\Auth\{LoginForm, RecoveryForm, RegisterForm};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -39,7 +40,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/miembros', MembersIndex::class)->name('members.index');
         Route::get('/membresias', MembershipsIndex::class)->name('memberships.index');
         Route::get('/planes', MembershipPlansIndex::class)->name('plans.index');
-
+        Route::get('/historial', HistoryIndex::class)->name('admin.history');
         Route::get('/members/{members}/manage', function ($member) {
             $user = \App\Models\User::findOrFail($member);
             return "Gestión del miembro: " . $user->first_name;
