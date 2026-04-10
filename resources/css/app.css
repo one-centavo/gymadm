@@ -8,6 +8,8 @@
 
 @theme {
     --color-gym-blue: #45B1FF;
+    --color-gym-pink: #FF2E63;
+    --color-gym-yellow: #FDE047;
     --font-roboto: 'Roboto', sans-serif;
     --font-sans: 'Inter', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol', 'Noto Color Emoji';

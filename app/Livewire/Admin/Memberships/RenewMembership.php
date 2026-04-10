@@ -139,6 +139,6 @@ class RenewMembership extends Component
 
     public function render() : View
     {
-        return view('livewire.membership.renew-membership');
+        return view('livewire.admin.memberships.renew-membership');
     }
 }
