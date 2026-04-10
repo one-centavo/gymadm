@@ -12,7 +12,7 @@ Sistema de automatización administrativa de gimnasios, enfada en la gestión de
 
 1. **Clonar el repositorio**
     ```bash
-    git clone [https://github.com/one-centavo/gymadm.git](https://github.com/one-centavo/gymadm.git)
+    git clone https://github.com/one-centavo/gymadm.git
     cd gymadm
     ```
 
@@ -35,7 +35,7 @@ cp .env.example .env
     ```bash
     docker compose exec app composer install
     docker compose exec app pnpm install
-    docker compose exec app pnpm build
+    docker compose exec app pnpm dev
     docker compose exec app php artisan key:generate
     docker compose exec app php artisan storage:link
     ```
