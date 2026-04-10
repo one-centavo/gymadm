@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Membership;
 
-use App\Livewire\Membership\AssignMembership;
+use App\Livewire\Admin\Memberships\AssignMembership;
 use App\Models\User;
 use App\Models\MembershipPlan;
 use App\Models\Membership;
