@@ -18,12 +18,13 @@ Sistema de automatización administrativa de gimnasios, enfada en la gestión de
 
 2. **Configurar variables de entorno**
 
-   > [!IMPORTANT]
-   > Asegúrate de revisar los puertos en el archivo `.env` o `docker-compose.yml`. Si el puerto 8080 o 3306 están ocupados por servicios como XAMPP, cámbialos antes de continuar.
+> [!IMPORTANT]
+> Asegúrate de revisar los puertos en el archivo `.env` o `docker-compose.yml`. Si el puerto 8080 o 3306 están ocupados por servicios como XAMPP, cámbialos antes de levantar los contenedores.
 
-    ```bash
-    cp .env.example .env
-    ```
+
+```bash
+cp .env.example .env
+```
 
 3. **Levantar los contenedores (Orquestación con Docker Compose)**
     ```bash
