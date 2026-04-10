@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\User;
 use Carbon\Carbon;
 
-class DashboardServices
+class DashboardService
 {
     protected SubscriptionService $subscriptionService;
 
@@ -22,7 +22,6 @@ class DashboardServices
             return [
                 'status' => 'INACTIVO',
                 'days_remaining' => 0,
-                'color' => 'red'
             ];
         }
 
@@ -30,7 +29,7 @@ class DashboardServices
 
         return [
             'status' => 'ACTIVO',
-            'days_remaining' => now()->diffInDays($vencimiento, false),
+            'days_remaining' => now()->diffInDays($vencimiento),
             'next_payment' => $vencimiento->format('d M Y'),
             'plan_name' => $activeMembership->plan->name,
             'monthly_cost' => number_format($activeMembership->plan->price, 0, ',', '.'),
@@ -41,7 +40,7 @@ class DashboardServices
     private function calculateProgress($start, $end) : int
     {
         $total = Carbon::parse($start)->diffInDays(Carbon::parse($end));
-        $remaining = now()->diffInDays(Carbon::parse($end), false);
+        $remaining = now()->diffInDays(Carbon::parse($end));
         return $total > 0 ? ($remaining / $total) * 100 : 0;
     }
 }
