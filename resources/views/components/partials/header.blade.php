@@ -13,7 +13,7 @@
             x-bind:class="{ 'border-black! bg-black! text-gym-blue!': open }"
         >
             <div class="flex items-center gap-2 font-bold uppercase text-sm">
-                <span class="hidden md:inline">Administrador</span>
+                <span class="hidden md:inline">{{ auth()->user()->role === 'admin' ? 'Administrador' : 'Miembro' }}</span>
                 <x-heroicon-o-user-circle class="h-8 w-8 stroke-2"/>
             </div>
 
