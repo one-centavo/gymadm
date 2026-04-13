@@ -10,6 +10,7 @@
     --color-gym-blue: #45B1FF;
     --color-gym-pink: #FF2E63;
     --color-gym-yellow: #FDE047;
+    --color-gym-lime: #C6FF6B; /* Verde lima para badge PENDIENTE */
     --font-roboto: 'Roboto', sans-serif;
     --font-sans: 'Inter', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol', 'Noto Color Emoji';
@@ -78,4 +79,8 @@
     .step-slide-left {
         animation: none;
     }
+}
+
+.bg-gym-lime {
+    background-color: var(--color-gym-lime);
 }
