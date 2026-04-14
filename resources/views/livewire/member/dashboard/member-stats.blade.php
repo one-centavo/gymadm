@@ -47,7 +47,7 @@
                 <header class="w-full p-5 flex justify-between items-center">
                     <div class="bg-gym-yellow border-4 border-black px-4 py-1 shadow-brutal-sm -rotate-1">
             <span class="font-black text-sm tracking-widest uppercase">
-                {{--{{ $stats['status'] }}--}} ACTIVO
+                {{$stats['status']}}
             </span>
                     </div>
 
@@ -61,8 +61,8 @@
                             Días Restantes
                         </h2>
                         <span class="text-[7rem] lg:text-[8.5rem] font-black leading-none tracking-tighter">
-                {{--{{ $stats['days_remaining'] }}--}} 18
-            </span>
+                            {{ $stats['days_remaining'] }}
+                        </span>
                     </div>
 
                     <div class="bg-white border-4 border-black shadow-brutal-sm p-4 w-full lg:w-72 flex flex-col gap-3">
@@ -73,12 +73,13 @@
                         </div>
 
                         <div class="flex justify-between items-start gap-4 font-black">
-                <span class="text-base leading-tight uppercase">
-                    {{--{{ $stats['plan_name'] }}--}} CROSS
-                </span>
+                            <span class="text-base leading-tight uppercase">
+                                {{ $stats['plan_name'] }}
+                            </span>
                             <span class="text-sm text-right leading-tight">
-                    13 de Marzo,<br>2026
-                </span>
+                                {{ $stats['expiry_day_month'] }}<br>
+                                {{ $stats['expiry_year'] }}
+                            </span>
                         </div>
                     </div>
 
@@ -163,7 +164,7 @@
                 </div>
                 <h4 class="font-black text-[11px] tracking-widest uppercase mb-2">PRÓXIMO PAGO</h4>
                 <div
-                    class="font-black text-lg lg:text-xl">{{ $stats['status'] === 'ACTIVO' ? '13 Mar 2026' : '-' }}</div>
+                    class="font-black text-lg lg:text-xl">{{ $stats['status'] === 'ACTIVO' ? $stats['next_payment'] : '-' }}</div>
             </div>
 
             <!-- Costo Mensual -->
@@ -177,7 +178,7 @@
                 </div>
                 <h4 class="font-black text-[11px] tracking-widest uppercase mb-2">COSTO MENSUAL</h4>
                 <div
-                    class="font-black text-lg lg:text-xl">{{ $stats['status'] === 'ACTIVO' ? '13 Mar 2026' : '-' }}</div>
+                    class="font-black text-lg lg:text-xl">{{ $stats['status'] === 'ACTIVO' ? $stats['plan_price'] : '-' }}</div>
             </div>
         </div>
 
