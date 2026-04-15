@@ -35,7 +35,8 @@ class DashboardService
         if ($isExpired || $latestMembership->status === 'inactive') {
             return [
                 'status' => 'INACTIVO',
-                'expired_at' => $vencimiento->format('d/m/Y'),
+                'expired_day_month' => $vencimiento->translatedFormat('d \d\e F,'),
+                'expired_year' => $vencimiento->format('Y'),
             ];
         }
 
