@@ -1,1 +1,3 @@
-<h1>Historial</h1>
+<div>
+    <livewire:member.history.member-history/>
+</div>
