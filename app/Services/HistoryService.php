@@ -13,24 +13,24 @@ class HistoryService
     protected Membership $membershipModel;
     protected User $userModel;
 
-    public function getGeneralHistory() : LengthAwarePaginator
+    public function getUserHistory(User $user, array $filters = []): array
     {
-        return $this->userModel
-            ->from('users as u')
-            ->select(
-                'u.id as user_id',
-                'u.document_number',
-                'u.first_name',
-                'u.last_name',
-                'm.id as membership_id',
-                'm.start_date',
-                'm.end_date',
-                'm.status as membership_status',
-                'p.id as membership_plan_id',
-                'p.name as plan_name',
-            )->join('memberships as m', 'u.id', '=', 'm.user_id')
-            ->join('membership_plans as p', 'm.membership_plan_id', '=', 'p.id')
-            ->orderBy('m.end_date', 'desc')
-            ->paginate(10);
+        $query = $user->memberships()
+            ->with('membershipPlan')
+            ->orderBy('end_date', 'desc');
+
+        if (!empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+
+        $stats = [
+            'total_count' => (clone $query)->count(),
+            'total_amount' => (clone $query)->sum('price_paid'),
+        ];
+
+        return [
+            'transactions' => $query->paginate(10),
+            'stats' => $stats
+        ];
     }
 }
