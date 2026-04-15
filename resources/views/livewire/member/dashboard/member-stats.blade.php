@@ -93,7 +93,7 @@
 
                 <header class="w-full p-4 lg:p-6 flex justify-between items-start">
                     <div class="bg-gym-lime border-4 border-black px-3 py-1 shadow-brutal-sm -rotate-2">
-                        <span class="font-black text-sm tracking-tighter uppercase">Pendiente</span>
+                        <span class="font-black text-sm tracking-tighter uppercase">{{$stats['status']}}</span>
                     </div>
 
                     <x-heroicon-o-clock class="size-10 text-black stroke-2"/>
@@ -125,7 +125,7 @@
                 <header class="w-full p-5 flex justify-between items-center bg-transparent">
                     <div class="bg-gym-yellow border-4 border-black px-4 py-1 shadow-brutal-sm rotate-2">
             <span class="font-black text-sm tracking-widest uppercase">
-                Vencido
+                {{$stats['status']}}
             </span>
                     </div>
 
@@ -137,7 +137,7 @@
                         Tu membresía<br>ha expirado
                     </h2>
                     <p class="font-bold text-lg border-2 border-black inline-block px-4 py-1 self-center bg-gym-pink/10">
-                        Venció el 10 de Febrero, 2026
+                        Venció el {{ $stats['expired_day_month'] ?? '-' }} {{ $stats['expired_year'] ?? '' }}
                     </p>
                 </section>
 
