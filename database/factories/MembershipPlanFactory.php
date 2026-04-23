@@ -18,7 +18,7 @@ class MembershipPlanFactory extends Factory
     {
         $names = ['Bronce', 'Plata', 'Oro', 'Premium', 'VIP', 'Black'];
         return [
-            'name'           => 'Plan ' . $this->faker->unique()->randomElement($names),
+            'name'           => 'Plan ' . $this->faker->randomElement($names) . ' ' . $this->faker->unique()->numerify('###'),
             'description'    => $this->faker->sentence(10),
             'price'          => $this->faker->randomElement([50000, 80000, 120000, 150000]),
             'duration_value' => $this->faker->randomElement([1, 3, 6, 12]),
