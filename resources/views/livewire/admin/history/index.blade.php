@@ -5,4 +5,5 @@
             <span class="text-slate-500 font-bold text-sm tracking-widest">GESTIONA Y CONTROLA EL HISTORIAL DE TU GIMNASIO</span>
         </div>
     </header>
+    <livewire:admin.history.general-history/>
 </section>

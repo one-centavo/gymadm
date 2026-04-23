@@ -33,4 +33,18 @@ class HistoryService
             'stats' => $stats
         ];
     }
+
+    public function getGeneralHistory()
+    {
+        $query = Membership::with('user','membershipPlan');
+
+        $stats = [
+            'total_revenue' => (clone $query)->sum('price_paid'),
+            'total_sales' => (clone $query)->count(),
+        ];
+
+        $transactions = $query->orderBy('created_at', 'desc')->paginate(10);
+
+        return ['transactions' => $transactions, 'stats' => $stats];
+    }
 }
