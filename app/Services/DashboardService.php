@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Models\Membership;
 use Carbon\Carbon;
 use Number;
 
@@ -49,5 +50,38 @@ class DashboardService
             'expiry_year' => $vencimiento->format('Y'),
             'next_payment' => $vencimiento->copy()->addDay()->translatedFormat('d M Y'),
         ];
+    }
+
+    public function getKpis()
+    {
+        $now = now();
+        $nextWeek = now()->addDays(7);
+
+        return [
+            'total_members' => User::where('role', 'member')->count(),
+
+            'monthly_income' => Membership::whereMonth('created_at', $now->month)
+                ->whereYear('created_at', $now->year)
+                ->sum('price_paid'),
+
+
+            'active_memberships' => Membership::where('status', 'active')->count(),
+
+
+            'upcoming_expirations' => Membership::where('status', 'active')
+                ->whereBetween('end_date', [$now, $nextWeek])
+                ->count(),
+        ];
+    }
+
+    public function getRecentMembers()
+    {
+        return User::where('role', 'member')
+            ->with(['memberships' => function($query) {
+                $query->latest()->with('membershipPlan');
+            }])
+            ->latest()
+            ->take(5)
+            ->get();
     }
 }
