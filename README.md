@@ -1,6 +1,6 @@
 # GYMADM
 
-Sistema de automatización administrativa de gimnasios, enfada en la gestión de miembros y membresías.
+Sistema de automatización administrativa para gimnasios, **enfocado** en la gestión eficiente de miembros, membresías y control de pagos.
 
 ## Stack Tecnológico
 
@@ -16,7 +16,7 @@ Sistema de automatización administrativa de gimnasios, enfada en la gestión de
     cd gymadm
     ```
 
-2. **Configurar variables de entorno**
+2. **Configurar variables de entorno y orquestación**
 
 > [!IMPORTANT]
 > Asegúrate de revisar los puertos en el archivo `.env` o `docker-compose.yml`. Si el puerto 8080 o 3306 están ocupados por servicios como XAMPP, cámbialos antes de levantar los contenedores.
@@ -24,6 +24,7 @@ Sistema de automatización administrativa de gimnasios, enfada en la gestión de
 
 ```bash
 cp .env.example .env
+cp docker-compose.override.example.yml docker-compose.override.yml
 ```
 
 3. **Levantar los contenedores (Orquestación con Docker Compose)**
@@ -49,3 +50,17 @@ cp .env.example .env
 
 * **Aplicación:** [http://localhost:8080](http://localhost:8080) (O el puerto configurado en él .env).
 * **Servidor de Correos (Mailpit):** [http://localhost:8025](http://localhost:8025).
+
+### 🔑 Credenciales de Prueba (Seed)
+
+Si ejecutaste el comando `php artisan migrate --seed`, puedes ingresar con los siguientes datos:
+
+| Rol                              | Usuario              | Contraseña |
+|:---------------------------------|:---------------------| :--- |
+| **Administrador**                | `admin@gymadm.com`   | `password` |
+| **Miembro con estado activo**    | `active@gymadm.com`  | `password` |
+ | **Miembro con estado pendiente** | `pending@gymadm.com` |`password`|
+| **Miembro con estado inactivo**  | `expired@gymadm.com` |`password`|
+
+> [!NOTE]
+> Estas credenciales son generadas automáticamente para el entorno de desarrollo. No olvides cambiarlas en producción.
