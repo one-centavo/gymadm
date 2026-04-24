@@ -31,8 +31,8 @@ class SubscriptionService
      */
     public function assignMembership(AssignMembershipData $data): Membership
     {
-        $member = $this->userModel->where('role','member')->findOrFail($data->userId);
-        $plan = $this->membershipPlanModel->where('status','active')->findOrFail($data->planId);
+        $member = $this->userModel->where('role', 'member')->findOrFail($data->userId);
+        $plan = $this->membershipPlanModel->where('status', 'active')->findOrFail($data->planId);
         $startDate = Carbon::instance($data->startDate)->startOfDay();
 
         return DB::transaction(function () use ($member, $plan, $startDate, $data) {
@@ -60,9 +60,10 @@ class SubscriptionService
 
     private function calculateEndDate(
         DateTimeInterface $startDate,
-        int $durationValue,
-        string $durationUnit
-    ): Carbon {
+        int               $durationValue,
+        string            $durationUnit
+    ): Carbon
+    {
         $date = Carbon::instance($startDate)->startOfDay();
 
         return match ($durationUnit) {
@@ -186,7 +187,7 @@ class SubscriptionService
         return $this->assignMembership($data);
     }
 
-    public function cancelMembership(int $membershipId,string $cancelledReason) : void
+    public function cancelMembership(int $membershipId, string $cancelledReason): void
     {
         $this->membershipModel->where('id', $membershipId)
             ->update([
@@ -194,6 +195,45 @@ class SubscriptionService
                 'cancellation_reason' => $cancelledReason,
                 'cancelled_at' => Carbon::now(),
             ]);
+    }
+
+    public function getMembersExpiringSoon()
+    {
+        return Membership::where('status', 'active')
+            ->whereDate('end_date', today()->addDays(7))
+            ->with(['user', 'membershipPlan'])
+            ->get();
+    }
+
+    public function getMembersExpiringToday()
+    {
+        return Membership::where('status', 'active')
+            ->whereDate('end_date', today())
+            ->with(['user', 'membershipPlan'])
+            ->get();
+    }
+
+    public function getMembersExpiredYesterday()
+    {
+        return Membership::where('status', 'active')
+            ->whereDate('end_date', today()->subDay())
+            ->with(['user', 'membershipPlan'])
+            ->get();
+    }
+
+    public function getMembersRecentlyExpired()
+    {
+        return Membership::where('status', 'inactive')
+            ->whereBetween('end_date', [today()->subDays(30), today()->subDay()])
+            ->with('user')
+            ->get();
+    }
+
+    public function updateMemberStatusToInactive()
+    {
+        return Membership::where('status', 'active')
+            ->whereDate('end_date', '<', today())
+            ->update(['status' => 'inactive']);
     }
 
 
