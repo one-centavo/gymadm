@@ -1,0 +1,52 @@
+@props([
+    'title',
+    'eventName',
+    'wireSubmit',
+    'submitLabel' => 'GUARDAR',
+    'bind' => 'open'
+])
+
+<div x-data="{ open: @entangle($bind) }"
+     @prefix-{{ $eventName }}.window="open = true; @isset($onOpen) {{ $onOpen }} @endisset"
+     class="relative">
+
+    {{-- Backdrop --}}
+    <div x-show="open"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 bg-black/60 backdrop-blur-sm z-60"
+         @click="open = false">
+    </div>
+
+    {{-- Panel --}}
+    <div x-show="open"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="translate-x-full"
+         x-transition:enter-end="translate-x-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="translate-x-0"
+         x-transition:leave-end="translate-x-full"
+         {{-- Estilo Neobrutalista --}}
+         class="fixed inset-y-0 right-0 w-full sm:w-125 bg-white border-l-8 border-black z-70 p-8 shadow-[-10px_0px_0px_0px_rgba(0,0,0,1)] flex flex-col overflow-y-auto">
+
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl font-black uppercase tracking-tighter italic">{{ $title }}</h2>
+            <button @click="open = false" class="border-4 border-black p-2 hover:bg-pink-500 transition-colors cursor-pointer">
+                <x-heroicon-o-x-mark class="h-6 w-6 font-black"/>
+            </button>
+        </div>
+
+        <form wire:submit.prevent="{{ $wireSubmit }}" class="flex flex-col gap-5">
+            {{-- Aquí caerán los campos de cada formulario --}}
+            {{ $slot }}
+
+            <button type="submit" class="mt-4 bg-gym-blue border-4 border-black p-4 font-black uppercase text-xl shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-pointer">
+                {{ $submitLabel }}
+            </button>
+        </form>
+    </div>
+</div>

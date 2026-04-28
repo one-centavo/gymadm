@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\MembershipPlan;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,24 +18,38 @@ class MembershipFactory extends Factory
      */
     public function definition(): array
     {
-        $plan = \App\Models\MembershipPlan::inRandomOrder()->first()
-            ?? \App\Models\MembershipPlan::factory()->create();
-
         return [
-            // 2. Buscamos un usuario al azar que sea el "dueño" de esta membresía
-            'user_id' => \App\Models\User::inRandomOrder()->first()?->id ?? \App\Models\User::factory(),
-
-            'membership_plan_id' => $plan->id,
-
-            // 3. Lógica de fechas usando Carbon
-            'start_date' => now(),
-            'end_date' => now()->addMonths($plan->duration_value), // Se calcula según el plan
-
-            'status' => 'active',
-            'payment_method' => fake()->randomElement(['cash', 'transfer', 'card']),
-            'price_paid' => $plan->price, // El precio pagado coincide con el del plan
+            'user_id'            => User::factory(),
+            'membership_plan_id' => MembershipPlan::factory(),
+            'start_date'         => now()->toDateString(),
+            'end_date'           => function (array $attributes) {
+                $plan = MembershipPlan::find($attributes['membership_plan_id']);
+                return now()->addMonths($plan?->duration_value ?? 1);
+            },
+            'status'             => 'active',
+            'payment_method'     => $this->faker->randomElement(['cash', 'transfer', 'card']),
+            'price_paid'         => function (array $attributes) {
+                return MembershipPlan::find($attributes['membership_plan_id'])?->price ?? 0;
+            },
             'cancellation_reason' => null,
-            'cancelled_at' => null,
+            'cancelled_at'        => null,
         ];
+    }
+
+    public function active(): static
+    {
+        return $this->state(fn () => [
+            'status'   => 'active',
+            'end_date' => now()->addDays(rand(5, 25)),
+        ]);
+    }
+
+    public function expired(): static
+    {
+        return $this->state(fn () => [
+            'status'     => 'inactive',
+            'start_date' => now()->subMonths(2),
+            'end_date'   => now()->subDays(rand(1, 10)),
+        ]);
     }
 }

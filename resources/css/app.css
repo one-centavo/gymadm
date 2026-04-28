@@ -1,4 +1,5 @@
-@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;900&display=swap');
+@import "tailwindcss";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -6,6 +7,98 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --color-gym-blue: #45B1FF;
+    --color-gym-pink: #FF2E63;
+    --color-gym-yellow: #FDE047;
+    --color-gym-lime: #C6FF6B; /* Verde lima para badge PENDIENTE */
+    --font-roboto: 'Roboto', sans-serif;
+    --font-sans: 'Inter', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Neobrutalism shadows */
+    --shadow-brutal: 4px 4px 0px 0px #000;
+    --shadow-brutal-sm: 2px 2px 0px 0px #000;
+    --shadow-blue-gym: 5px 5px 0px 0px var(--color-gym-blue);
+
+}
+
+@layer base {
+    html {
+        font-family: 'Roboto', sans-serif;
+        @apply antialiased;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+@layer components {
+    .brutal-card {
+        @apply bg-white border-4 border-black shadow-brutal p-6;
+    }
+
+    .brutal-title {
+        @apply text-4xl font-black uppercase italic tracking-tighter mb-6;
+    }
+
+    .brutal-btn {
+        @apply border-2 border-black px-4 py-2 font-black uppercase transition-all shadow-brutal-sm active:shadow-none active:translate-x-[2px] active:translate-y-[2px];
+    }
+
+    .brutal-table-header {
+        @apply border-b-4 border-black bg-black text-white uppercase font-black p-3 text-left;
+    }
+}
+
+.bg-gym-hero {
+    background-image: url('https://images.unsplash.com/photo-1693214674451-2111f7690877?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBneW0lMjB3ZWlnaHQlMjByb29tJTIwZGFya3xlbnwxfHx8fDE3NzMwNzg1NDd8MA&ixlib=rb-4.1.0&q=80&w=1080');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.bg-gym-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: inherit;
+    background-repeat: inherit;
+    background-size: inherit;
+    background-position: inherit;
+    filter: blur(8px);
+    z-index: 1;
+}
+
+.bg-gym-hero > * {
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes step-slide-left {
+    from {
+        opacity: 0;
+        transform: translateX(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.step-slide-left {
+    animation: step-slide-left 500ms ease-in-out;
+    will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .step-slide-left {
+        animation: none;
+    }
+}
+
+.bg-gym-lime {
+    background-color: var(--color-gym-lime);
 }

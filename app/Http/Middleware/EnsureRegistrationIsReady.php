@@ -16,21 +16,15 @@ class EnsureRegistrationIsReady{
     public function handle(Request $request, Closure $next): Response
     {
         if (!$request->session()->has('email')) {
-            return redirect()->route('register.index')
-                ->with('error', 'Debes iniciar el registro desde el principio.');
+            return redirect()->route('register')
+                ->with('error', 'You should start the registration process by submitting your email.');
         }
 
-        if (!$request->session()->get('otp_verified', false)) {
-            return redirect()->route('register.otp.view')
-                ->with('error', 'Aún no has verificado tu identidad con el código.');
-        }
-
-        if (!$request->session()->has('registration_profile')) {
-            return redirect()->route('register.profile.view')
-                ->with('error', 'Por favor, completa tus datos personales.');
+        if (!$request->session()->get('verified_otp', false)) {
+            return redirect()->route('register.verifyOtp')
+                ->with('error', 'Please verify the OTP sent to your email before proceeding with registration.');
         }
 
         return $next($request);
     }
-
 }

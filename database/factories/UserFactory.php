@@ -24,29 +24,40 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'document_type' => fake()->randomElement(['CC', 'TI', 'CE']), // Tipos comunes en Colombia
-            'document_number' => fake()->unique()->numerify('##########'), // 10 números aleatorios
-            'first_name' => fake()->firstName(),
-            'middle_name' => fake()->optional()->firstName(),
-            'last_name' => fake()->lastName(),
-            'second_lastname' => fake()->optional()->lastName(),
-            'email' => fake()->unique()->safeEmail(),
-            'phone_number' => fake()->unique()->phoneNumber(),
-            'status' => 'active',
-            'role' => 'member',
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'document_type'   => $this->faker->randomElement(['CC', 'TI', 'CE']),
+            'document_number' => $this->faker->unique()->numerify('##########'),
+            'first_name'      => $this->faker->firstName(),
+            'middle_name'     => $this->faker->optional()->firstName(),
+            'last_name'       => $this->faker->lastName(),
+            'second_lastname' => $this->faker->optional()->lastName(),
+            'email'           => $this->faker->unique()->safeEmail(),
+            'phone_number'    => $this->faker->unique()->numerify('3#########'), // Celulares en Colombia
+            'status'          => 'active',
+            'role'            => 'member',
+            'password'        => static::$password ??= Hash::make('password'),
+            'remember_token'  => Str::random(10),
             'must_change_password' => false,
         ];
     }
 
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
-    public function unverified(): static
+    public function admin(): static
     {
         return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
+            'role' => 'admin',
+        ]);
+    }
+
+    public function member(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'member',
+        ]);
+    }
+
+    public function inactive(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => 'inactive',
         ]);
     }
 }
