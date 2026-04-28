@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Livewire\Auth;
+namespace Tests\Feature\Auth;
 
 use App\Livewire\Auth\RecoveryForm;
 use App\Models\User;
