@@ -15,17 +15,18 @@ class MemberService
     protected User $userModel;
     protected OtpService $otpService;
 
-    public function __construct(User $user, OtpService $otpService){
+    public function __construct(User $user, OtpService $otpService)
+    {
         $this->userModel = $user;
         $this->otpService = $otpService;
     }
 
-    public function registerMember(array $data) : User
+    public function registerMember(array $data): User
     {
 
         $temporaryPassword = $this->generateTemporaryPassword();
 
-        $this->otpService->send($data['email'],$temporaryPassword);
+        $this->otpService->send($data['email'], $temporaryPassword);
 
         return $this->userModel->create([
             'first_name'      => $data['first_name'],
@@ -33,7 +34,7 @@ class MemberService
             'last_name'       => $data['last_name'],
             'second_lastname' => $data['second_last_name'] ?? null,
             'email'           => $data['email'],
-            'password'        => Hash::make($this->generateTemporaryPassword()),
+            'password'        => Hash::make($temporaryPassword),
             'document_type'   => $data['document_type'],
             'document_number' => $data['document_number'],
             'status'          => 'pending',
@@ -48,7 +49,7 @@ class MemberService
         return Str::password(8);
     }
 
-    public function verifyByDocumentNumber(string $documentNumber) : ?User
+    public function verifyByDocumentNumber(string $documentNumber): ?User
     {
         return $this->userModel->where('document_number', $documentNumber)->first();
     }
@@ -82,13 +83,13 @@ class MemberService
             $query->where('status', $statusFilter);
         }
 
-        return $query->latest()->paginate(10); // Ordenamos por lo más reciente
+        return $query->latest()->paginate(10);
     }
 
-    public function updateMemberInfo(int $id, array $data) : Void
+    public function updateMemberInfo(int $id, array $data): Void
     {
         $this->userModel
-            ->where('id',$id)
+            ->where('id', $id)
             ->update([
                 'first_name'      => $data['first_name'],
                 'middle_name'     => $data['middle_name'] ?? null,
@@ -112,7 +113,7 @@ class MemberService
 
         $newStatus = match ($user->status) {
             'active'  => 'inactive',
-            'pending','inactive' => 'active'
+            'pending', 'inactive' => 'active'
         };
 
         $user->update(['status' => $newStatus]);
@@ -120,7 +121,7 @@ class MemberService
         return $newStatus;
     }
 
-    public function searchMembers(string $term) : Collection
+    public function searchMembers(string $term): Collection
     {
         $term = trim($term);
 
@@ -128,7 +129,7 @@ class MemberService
         return $this->userModel->newQuery()
             ->select('id', 'document_number', 'first_name', 'last_name')
             ->where('role', 'member')
-            ->where(function($query) use ($term) {
+            ->where(function ($query) use ($term) {
                 $query->where('document_number', 'like', "%{$term}%")
                     ->orWhere('first_name', 'like', "%{$term}%")
                     ->orWhere('last_name', 'like', "%{$term}%");
