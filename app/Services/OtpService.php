@@ -22,43 +22,26 @@ class OtpService
      */
     public function generate(string $email): string {
         $lastCode = SecurityCode::where('email', $email)->latest()->first();
-        try {
 
-            if ($lastCode && $lastCode->created_at->addMinute()->isFuture()) {
-                $seconds = now()->diffInSeconds($lastCode->created_at->addMinute());
-                throw new RuntimeException("Debes esperar $seconds segundos antes de solicitar un nuevo código.");
-            }
-
-            $code = random_int(100000, 999999);
-            SecurityCode::create([
-                'email' => $email,
-
-                // We keep the code hashed for security reasons and check it using Hash::check when validating the code later.
-                'code' => Hash::make($code),
-                'expires_at' => now()->addMinutes(10),
-            ]);
-
-            return (string)$code;
-        } catch (QueryException $e) {
-
-            Log::critical("Base de datos fuera de servicio: " . $e->getMessage());
-            throw new RuntimeException("Servicio temporalmente no disponible.");
-        }catch (Exception $e) {
-            Log::error("Error al generar el código OTP: " . $e->getMessage());
-            throw new RuntimeException("Error al generar el código OTP.");
+        if ($lastCode && $lastCode->created_at->addMinute()->isFuture()) {
+            $seconds = now()->diffInSeconds($lastCode->created_at->addMinute());
+            throw new RuntimeException("Debes esperar $seconds segundos antes de solicitar un nuevo código.");
         }
 
+        $code = random_int(100000, 999999);
+        SecurityCode::create([
+            'email' => $email,
 
+            // We keep the code hashed for security reasons and check it using Hash::check when validating the code later.
+            'code' => Hash::make($code),
+            'expires_at' => now()->addMinutes(10),
+        ]);
+
+        return (string)$code;
     }
 
     public function send(string $email, string $code): void {
-        try{
-            Mail::to($email)->send(new SecurityCodeMail($code));
-        }catch(Throwable $e){
-            Log::error($e->getMessage());
-                throw new RuntimeException("Failed to send OTP code.");
-        }
-
+        Mail::to($email)->send(new SecurityCodeMail($code));
     }
 
     public function validate(string $email, string $code): bool {
