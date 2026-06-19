@@ -38,15 +38,8 @@ class RegistrationService
             throw new RuntimeException("This email address is already registered.");
         }
 
-        try {
-            $code = $this->otpService->generate($email);
-            $this->otpService->send($email, $code);
-        } catch (RuntimeException $e) {
-            throw $e;
-        } catch (Exception $e) {
-            Log::error("Failed to send registration OTP to {$email}: " . $e->getMessage());
-            throw new RuntimeException("We couldn't send the verification code. Please try again later.");
-        }
+        $code = $this->otpService->generate($email);
+        $this->otpService->send($email, $code);
     }
 
     public function registerByMember(array $data): User
@@ -66,4 +59,3 @@ class RegistrationService
         ]);
     }
 }
-
