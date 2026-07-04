@@ -1,6 +1,13 @@
+.git
+.github
+.env
 *.log
 .DS_Store
 _ide_helper.php
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/logs/*
 .env
 .env.backup
 .env.production
