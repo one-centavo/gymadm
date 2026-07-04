@@ -1,5 +1,6 @@
 *.log
 .DS_Store
+_ide_helper.php
 .env
 .env.backup
 .env.production
@@ -8,7 +9,8 @@
 .env.*.local
 .phpactor.json
 .phpunit.result.cache
-_ide_helper.php
+.phpstorm.meta.php
+_ide_helper_models.php
 /.fleet
 /.idea
 /.nova
@@ -28,3 +30,4 @@ Homestead.yaml
 Thumbs.db
 /docker/php/msmtprc
 /.pnpm-store
+docker-compose.override.yml

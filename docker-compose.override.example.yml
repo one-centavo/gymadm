@@ -1,12 +1,46 @@
 services:
-  app:
-    deploy:
-      resources:
-        limits:
-          memory: 4G
+  # Web Server
+  web:
+    deploy: {}
+    ports:
+      - "${FORWARD_NGINX_PORT:-8080}:80"
+    volumes:
+      - .:/var/www/html
 
+  # Application
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile.dev
+    deploy: {}
+    volumes:
+      - .:/var/www/html
+      - ./docker/php/msmtprc:/etc/msmtprc:ro
+    ports:
+      - "${VITE_PORT:-5173}:5173"
+
+  # Database
   db:
-    deploy:
-      resources:
-        limits:
-          memory: 2G
+    deploy: {}
+    ports:
+      - "${FORWARD_DB_PORT:-3306}:3306"
+
+  # Mailpit
+  mailpit:
+    container_name: gymadm-mailpit
+    image: axllent/mailpit
+    deploy: {}
+    ports:
+      - "1025:1025" # SMTP port
+      - "8025:8025" # Web Dashboard port
+    volumes:
+      - gymadm_mailpit_data:/data
+    networks:
+      - gymadm-network
+
+networks:
+  proxy-network:
+    external: false
+
+volumes:
+  gymadm_mailpit_data:
