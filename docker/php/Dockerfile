@@ -1,19 +1,25 @@
+
 FROM composer:2.10 AS vendor
 WORKDIR /app
 
-COPY database/ database/
-COPY app/ app/
-COPY routes/ routes/
-COPY composer.json composer.json
-COPY composer.lock composer.lock
+
+COPY composer.json composer.lock ./
 
 RUN composer install \
     --no-dev \
     --no-interaction \
     --prefer-dist \
     --ignore-platform-reqs \
-    --optimize-autoloader \
-    --no-scripts
+    --no-scripts \
+    --no-autoloader
+
+COPY database/ database/
+COPY app/ app/
+COPY routes/ routes/
+
+
+RUN composer dump-autoload --optimize --no-dev --classmap-authoritative
+
 
 FROM node:22-alpine AS frontend
 WORKDIR /app
@@ -24,43 +30,61 @@ RUN apk add --no-cache make g++ python3 \
 COPY package.json pnpm-lock.yaml* vite.config.js ./
 
 RUN pnpm config set package-import-method copy \
-    && pnpm install --ignore-scripts=false
+    && pnpm install --frozen-lockfile
 
 COPY resources/ resources/
 COPY public/ public/
-COPY app/ app/ 
+COPY app/ app/
 
 RUN pnpm run build
 
+
 FROM php:8.3-fpm-alpine
 
-ARG user
-ARG uid
+FROM node:22-alpine AS frontend
+WORKDIR /app
 
-RUN apk add --no-cache unzip libzip-dev curl \
-    && docker-php-ext-install pdo_mysql zip bcmath opcache
 
-RUN adduser -G www-data -u ${uid:-1000} -h /home/${user:-laravel_user} -D ${user:-laravel_user}
+RUN apk add --no-cache \
+        unzip \
+        curl \
+        libzip-dev \
+        libpng-dev \
+        libjpeg-turbo-dev \
+        freetype-dev \
+        oniguruma-dev \
+        libxml2-dev \
+        icu-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+        pdo_mysql \
+        zip \
+        bcmath \
+        opcache \
+        gd \
+        mbstring \
+        exif \
+        pcntl
+
+RUN adduser -G www-data -u ${uid} -h /home/${user} -D ${user}
 
 WORKDIR /var/www/html
 
-COPY . .
 
-COPY --from=vendor /app/vendor/ ./vendor/
-COPY --from=frontend /app/public/build/ ./public/build/
+COPY --chown=${user}:www-data . .
+COPY --from=vendor --chown=${user}:www-data /app/vendor/ ./vendor/
+COPY --from=frontend --chown=${user}:www-data /app/public/build/ ./public/build/
 
-RUN mkdir -p /var/www/html/storage/framework/cache/data \
-    && mkdir -p /var/www/html/storage/framework/sessions \
-    && mkdir -p /var/www/html/storage/framework/views \
-    && mkdir -p /var/www/html/storage/logs \
-    && mkdir -p /var/www/html/bootstrap/cache
-
-RUN chown -R ${user:-laravel_user}:www-data /var/www/html \
-    && chmod -R 775 /var/www/html/storage \
-    && chmod -R 775 /var/www/html/bootstrap/cache
+RUN mkdir -p storage/framework/cache/data \
+        storage/framework/sessions \
+        storage/framework/views \
+        storage/logs \
+        bootstrap/cache \
+    && chown -R ${user}:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
 EXPOSE 9000
 
-USER ${user:-laravel_user}
+USER ${user}
 
 CMD ["php-fpm"]
