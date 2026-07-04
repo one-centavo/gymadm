@@ -41,8 +41,8 @@ RUN pnpm run build
 
 FROM php:8.3-fpm-alpine
 
-ARG user=laravel_user
-ARG uid=1000
+FROM node:22-alpine AS frontend
+WORKDIR /app
 
 
 RUN apk add --no-cache \
