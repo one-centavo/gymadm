@@ -1,4 +1,3 @@
-
 FROM composer:2.10 AS vendor
 WORKDIR /app
 
