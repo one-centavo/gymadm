@@ -26,10 +26,17 @@ RUN composer dump-autoload --optimize --no-dev --classmap-authoritative --no-scr
 FROM node:22-alpine AS frontend
 WORKDIR /app
 
-RUN apk add --no-cache make g++ python3 \
-    && npm install -g pnpm
+RUN apk add --no-cache make g++ python3
 
 COPY package.json pnpm-lock.yaml* vite.config.js ./
+
+# corepack respeta la versión fijada en "packageManager" de package.json,
+# igual que en Dockerfile.dev, evitando mismatches de lockfileVersion
+RUN corepack enable
+
+# pnpm v10 bloquea por defecto los postinstall scripts de dependencias (ej. esbuild).
+# Lo aprobamos explícitamente para builds no interactivos (CI/Docker).
+RUN echo "only-built-dependencies[]=esbuild" >> .npmrc
 
 RUN pnpm config set package-import-method copy \
     && pnpm install --frozen-lockfile
