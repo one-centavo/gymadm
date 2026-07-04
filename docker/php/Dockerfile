@@ -1,4 +1,3 @@
-
 FROM composer:2.10 AS vendor
 WORKDIR /app
 
@@ -41,8 +40,8 @@ RUN pnpm run build
 
 FROM php:8.3-fpm-alpine
 
-FROM node:22-alpine AS frontend
-WORKDIR /app
+ARG user=laravel_user
+ARG uid=1000
 
 
 RUN apk add --no-cache \
