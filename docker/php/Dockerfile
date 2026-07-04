@@ -16,10 +16,13 @@ RUN composer install \
 FROM node:24-alpine AS frontend
 WORKDIR /app
 
-RUN npm install -g pnpm
+RUN apk add --no-cache make g++ python3 \
+    && npm install -g pnpm
 
 COPY package.json pnpm-lock.yaml* vite.config.js ./
-RUN pnpm install
+
+RUN pnpm config set package-import-method copy \
+    && pnpm install
 
 COPY resources/ resources/
 COPY public/ public/
