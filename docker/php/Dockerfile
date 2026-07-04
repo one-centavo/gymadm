@@ -15,7 +15,7 @@ RUN composer install \
 FROM node:24-alpine AS frontend
 WORKDIR /app
 RUN corepack enable pnpm
-COPY package.json pnpm-lock.yaml* vite.config.js tailwind.config.js postcss.config.js ./
+COPY package.json pnpm-lock.yaml* vite.config.js ./
 RUN pnpm install
 COPY resources/ resources/
 COPY public/ public/
