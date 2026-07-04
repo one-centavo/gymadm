@@ -53,10 +53,14 @@ jobs:
 
             # 4. Principal Action: Building and Starting the Infrastructure
             echo "🏗️ Building and starting containers in production..."
-            docker compose up -d --build
+            docker compose up -d
 
             # 5. Database Automation: Automatic Migrations of Laravel
             echo "🗄️ Running database migrations..."
             docker compose exec -T app php artisan migrate --force
+            docker compose exec -T app php artisan storage:link --force
+            docker compose exec -T app php artisan config:cache
+            docker compose exec -T app php artisan route:cache
+            docker compose exec -T app php artisan view:cache
 
             echo "✅ Deployment completed successfully!"
