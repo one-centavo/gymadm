@@ -1,7 +1,8 @@
+# ---------- Stage 1: Vendor (Composer) ----------
 FROM composer:2.10 AS vendor
 WORKDIR /app
 
-
+# Solo los archivos de dependencias primero -> cachea la descarga
 COPY composer.json composer.lock ./
 
 RUN composer install \
@@ -12,14 +13,16 @@ RUN composer install \
     --no-scripts \
     --no-autoloader
 
+# Ahora sí copiamos el código fuente (esto NO invalida la capa de arriba)
 COPY database/ database/
 COPY app/ app/
 COPY routes/ routes/
 
+# Autoload optimizado se genera aparte, una vez que el código está presente
+# --no-scripts evita que corra "artisan package:discover" (necesitaría el proyecto completo: artisan, config/, bootstrap/, .env)
+RUN composer dump-autoload --optimize --no-dev --classmap-authoritative --no-scripts
 
-RUN composer dump-autoload --optimize --no-dev --classmap-authoritative
-
-
+# ---------- Stage 2: Frontend (Vite + Tailwind 4) ----------
 FROM node:22-alpine AS frontend
 WORKDIR /app
 
@@ -37,13 +40,13 @@ COPY app/ app/
 
 RUN pnpm run build
 
-
+# ---------- Stage 3: Runtime (PHP-FPM) ----------
 FROM php:8.3-fpm-alpine
 
 ARG user=laravel_user
 ARG uid=1000
 
-
+# Dependencias del sistema + extensiones PHP (paridad con Dockerfile.dev)
 RUN apk add --no-cache \
         unzip \
         curl \
@@ -69,10 +72,13 @@ RUN adduser -G www-data -u ${uid} -h /home/${user} -D ${user}
 
 WORKDIR /var/www/html
 
-
+# --chown evita un chown -R costoso después
 COPY --chown=${user}:www-data . .
 COPY --from=vendor --chown=${user}:www-data /app/vendor/ ./vendor/
 COPY --from=frontend --chown=${user}:www-data /app/public/build/ ./public/build/
+
+# Aquí sí corre el discovery: ya tenemos artisan, config/, bootstrap/ y vendor completos
+RUN php artisan package:discover --ansi
 
 RUN mkdir -p storage/framework/cache/data \
         storage/framework/sessions \
