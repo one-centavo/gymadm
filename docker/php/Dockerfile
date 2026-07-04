@@ -2,6 +2,8 @@ FROM composer:2.10 AS vendor
 WORKDIR /app
 
 COPY database/ database/
+COPY app/ app/
+COPY routes/ routes/
 COPY composer.json composer.json
 COPY composer.lock composer.lock
 
@@ -13,7 +15,7 @@ RUN composer install \
     --optimize-autoloader \
     --no-scripts
 
-FROM node:24-alpine AS frontend
+FROM node:22-alpine AS frontend
 WORKDIR /app
 
 RUN apk add --no-cache make g++ python3 \
@@ -22,7 +24,7 @@ RUN apk add --no-cache make g++ python3 \
 COPY package.json pnpm-lock.yaml* vite.config.js ./
 
 RUN pnpm config set package-import-method copy \
-    && pnpm install
+    && pnpm install --ignore-scripts=false
 
 COPY resources/ resources/
 COPY public/ public/
@@ -50,7 +52,8 @@ COPY --from=frontend /app/public/build/ ./public/build/
 RUN mkdir -p /var/www/html/storage/framework/cache/data \
     && mkdir -p /var/www/html/storage/framework/sessions \
     && mkdir -p /var/www/html/storage/framework/views \
-    && mkdir -p /var/www/html/storage/logs
+    && mkdir -p /var/www/html/storage/logs \
+    && mkdir -p /var/www/html/bootstrap/cache
 
 RUN chown -R ${user:-laravel_user}:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage \
