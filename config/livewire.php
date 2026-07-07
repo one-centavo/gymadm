@@ -303,4 +303,17 @@ return [
         'max_calls' => 50,           // Maximum method calls per request
         'max_components' => 20,      // Maximum components per batch request
     ],
+
+    /*
+    |---------------------------------------------------------------------------
+    | Livewire Update URI
+    |---------------------------------------------------------------------------
+    |
+    | This option sets the URI that Livewire will use to send updates to.
+    | Setting this to '/livewire/update' forces relative paths, solving 
+    | Mixed Content errors behind Cloudflare/Proxies completely.
+    |
+    */
+
+    'update_uri' => '/livewire/update',
 ];
