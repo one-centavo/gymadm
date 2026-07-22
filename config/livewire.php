@@ -124,7 +124,7 @@ return [
     |
     */
 
-    'asset_url' => env('LIVEWIRE_ASSET_URL', '/'),
+    'asset_url' => null,
 
     'view_path' => resource_path('views/livewire'),
 
