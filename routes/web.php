@@ -11,17 +11,9 @@ use App\Livewire\Auth\{LoginForm, RecoveryForm, RegisterForm};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function (\Illuminate\Http\Request $request) {
-    return response()->json([
-        'scheme' => $request->getScheme(),
-        'http_host' => $request->getHttpHost(),
-        'scheme_and_host' => $request->schemeAndHttpHost(),
-        'root' => $request->root(),
-        'route_login' => route('login'),
-        'url_login' => url('/login'),
-        'app_url' => config('app.url'),
-    ]);
-});
+Route::get('/', function () {
+    return auth()->check() ? redirect('/dashboard') : redirect('/login');
+})->name('home');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', LoginForm::class)->name('login');
