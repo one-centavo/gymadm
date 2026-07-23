@@ -3,11 +3,7 @@ name: Deploy to VPS (CI/CD)
 on:
   push:
     branches:
-      - main
-
-concurrency:
-  group: deploy-production
-  cancel-in-progress: true
+      - main # Se activará automáticamente cada vez que hagas push a main
 
 jobs:
   deploy:
@@ -57,7 +53,7 @@ jobs:
 
             # 4. Principal Action: Building and Starting the Infrastructure
             echo "🏗️ Building and starting containers in production..."
-            docker compose up -d --build
+            docker compose up -d
 
             # 5. Database Automation: Automatic Migrations of Laravel
             echo "🗄️ Running database migrations..."
