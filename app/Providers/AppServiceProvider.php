@@ -21,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        RedirectIfAuthenticated::redirectUsing(fn() => route('/dashboard'));
+        RedirectIfAuthenticated::redirectUsing(fn() => route('dashboard'));
+        if ($this->app->environment('production') || config('app.env') === 'production') {
+            URL::forceScheme('https');
+        }
     }
 }

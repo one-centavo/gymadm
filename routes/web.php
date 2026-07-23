@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return auth()->check() ? redirect('/dashboard') : redirect('/login');
+    return auth()->check() ? redirect()->route('dashboard') : redirect()->route('login');
 })->name('home');
 
 Route::middleware('guest')->group(function () {
@@ -53,7 +53,5 @@ Route::middleware('auth')->group(function () {
         Route::get('/historial', MemberHistory::class)->name('member.history');
     });
 
-    Route::get('/perfil', function () {
-        return view('profile.edit');
-    })->name('profile.edit');
+    Route::get('/perfil', function() { return view('profile.edit'); })->name('profile.edit');
 });
