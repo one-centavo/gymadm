@@ -115,18 +115,6 @@ return [
     |
     */
 
-    /*
-    |---------------------------------------------------------------------------
-    | Livewire Asset URL (Inyectado para Proxy Inverso)
-    |---------------------------------------------------------------------------
-    |
-    | This value is used to specify the URL where Livewire's JavaScript assets are loaded from. This is useful if you are using a reverse proxy or CDN to serve your assets.
-    |
-    */
-
-    'asset_url' => env('LIVEWIRE_ASSET_URL', '/'),
-
-    'view_path' => resource_path('views/livewire'),
 
     /*
     |---------------------------------------------------------------------------
